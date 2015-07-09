@@ -17,8 +17,10 @@ package it.cnr.isti.hpc.wikipedia.cli;
 
 import it.cnr.isti.hpc.cli.AbstractCommandLineInterface;
 import it.cnr.isti.hpc.wikipedia.article.Article;
-import it.cnr.isti.hpc.wikipedia.reader.WikipediaArticleReader;
+import it.cnr.isti.hpc.wikipedia.spark.JsonpediaRDD;
 
+import org.apache.spark.SparkConf;
+import org.apache.spark.SparkContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -100,14 +102,10 @@ public class MediawikiToJsonCLI extends AbstractCommandLineInterface {
 		String input = cli.getInput();
 		String output = cli.getOutput();
 		String lang = cli.getParam("lang");
-		WikipediaArticleReader wap = new WikipediaArticleReader(input, output,
-				lang);
-		try {
-			wap.start();
-		} catch (Exception e) {
-			logger.error("parsing the mediawiki {}", e.toString());
-			System.exit(-1);
-		}
+		SparkConf conf = new SparkConf().setMaster("local[*]")
+				.setAppName("Mediawiki to Json");
+		SparkContext sc = new SparkContext(conf);
+		new JsonpediaRDD(input, lang, sc).parse().saveAsTextFile(output);
 	}
 
 }
