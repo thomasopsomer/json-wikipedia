@@ -17,11 +17,11 @@ json-wikipedia ![json-wikipedia](https://dl.dropboxusercontent.com/u/4663256/tmp
 
 Enjoy a dockerized image:
 
-   `docker run -v <LOCALPATH>:/mnt -i -t dav009/jsonpedia -input <PATHTOWIKI> -output <OUTPUTPATH> -lang <LANG>`
+   `docker run -v <LOCALPATH>:/mnt -i -t dav009/jsonwikipedia  -input <PATHTOWIKI> -output <OUTPUTPATH> -lang <LANG>`
 
  For example if my `english_wikipedia.dump` lives in : `/david/data/english_wikipedia.dump` I could run it as:
 
-   `docker run -v /david/data:/mnt -i -t dav009/jsonpedia -input /mnt/english_wikipedia.dump -output /mnt/english_wikipedia.json -lang en`
+   `docker run -v /david/data:/mnt -i -t dav009/jsonwikipedia -input /mnt/english_wikipedia.dump -output /mnt/english_wikipedia.json -lang en`
 
 Note that the output path corresponds to a path within the docker container. In the given example the output path is part of the mounted volume, so it will be available at the host machine.
 
@@ -34,14 +34,14 @@ Note that the output path corresponds to a path within the docker container. In 
 4. Uncompress the Wikipedia Dump
 5. do:
 
-    SPARKFOLDER/bin/spark-submit --driver-memory 10G --class it.cnr.isti.hpc.wikipedia.cli.MediawikiToJsonCLI json-wikipedia-1.0.0-jar-with-dependencies.jar -input <PATHTODBPEDIADUMP> -output <PATHTONEWJSONPEDIA> -lang <LANG>
+	SPARKFOLDER/bin/spark-submit --driver-memory 10G --class it.cnr.isti.hpc.wikipedia.cli.MediawikiToJsonCLI json-wikipedia-1.0.0-jar-with-dependencies.jar -input <PATHTODBPEDIADUMP> -output <PATHTONEWJSONPEDIA> -lang <LANG>
 
 this produces in `<PATHTONEWJSONPEDIA>` the JSON version of the dump
 
 ### How does Jsonpedia look like?
 
  ([here you can find an example](https://dl.dropboxusercontent.com/u/4663256/tmp/json-wikipedia-sample.json)). Each line of the file contains an article
-of dump encoded in JSON. Each JSON line can be deserialized in an [Article](http://sassicaia.isti.cnr.it/javadocs/json-wikipedia/it/cnr/isti/hpc/wikipedia/article/Article.html) object,which represents an_enriched_ version of the wikitext page. The Article object contains:
+of dump encoded in JSON. Each JSON line can be deserialized in an [Article](http://sassicaia.isti.cnr.it/javadocs/json-wikipedia/it/cnr/isti/hpc/wikipedia/article/Article.html) object,which represents an _enriched_ version of the wikitext page. The Article object contains:
 
 
   * the title (e.g., Leonardo Da Vinci);
@@ -67,13 +67,13 @@ of dump encoded in JSON. Each JSON line can be deserialized in an [Article](http
 Once you have created (or downloaded) the JSON dump (say `wikipedia.json`), you can iterate over the articles of the collection 
 easily using this snippet: 
 
-    RecordReader<Article> reader = new RecordReader<Article>(
-      "wikipedia.json",new JsonRecordParser<Article>(Article.class)
-    ).filter(TypeFilter.STD_FILTER);
+	RecordReader<Article> reader = new RecordReader<Article>(
+	  "wikipedia.json",new JsonRecordParser<Article>(Article.class)
+	).filter(TypeFilter.STD_FILTER);
 
-    for (Article a : reader) {
-    // do what you want with your articles  
-    }
+	for (Article a : reader) {
+		// do what you want with your articles
+	}
  
 You can also add some filters in order to iterate only on certain articles (in the example 
 we used only the standard type filter, which excludes meta pages e.g., Portal: or User: pages.).
@@ -84,7 +84,7 @@ of the [hpc-utils](http://sassicaia.isti.cnr.it/javadocs/hpc-utils) package.
 
 In order to use these classes, you will have to install `json-wikipedia` in your maven repository:
 
-    mvn install
+	mvn install
 
 and import the project in your new maven project adding the dependency: 
 

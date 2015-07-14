@@ -56,12 +56,12 @@ public class WikipediaArticleReader {
 
 	private WikiXMLParser wxp;
 	private BufferedWriter out;
-    private String json;
+	private String json;
 
 	private ArticleParser parser;
 	// private JsonRecordParser<Article> encoder;
 
-    private boolean toJsonFile = true;
+	private boolean toJsonFile = true;
 
 	private static ProgressLogger pl = new ProgressLogger("parsed {} articles",
 			10000);
@@ -103,7 +103,7 @@ public class WikipediaArticleReader {
 	 * 
 	 */
 	public WikipediaArticleReader(File inputFile, File outputFile, String lang) {
-        toJsonFile = true;
+		toJsonFile = true;
 		JsonConverter handler = new JsonConverter();
 		// encoder = new JsonRecordParser<Article>(Article.class);
 		parser = new ArticleParser(lang);
@@ -119,19 +119,19 @@ public class WikipediaArticleReader {
 
 	}
 
-    public WikipediaArticleReader(String XMLInput, String lang) {
-        toJsonFile = false;
-        JsonConverter handler = new JsonConverter();
+	public WikipediaArticleReader(String XMLInput, String lang) {
+		toJsonFile = false;
+		JsonConverter handler = new JsonConverter();
 
-        parser = new ArticleParser(lang);
-        try {
-            wxp = new StreamWikiXmlParser(XMLInput, handler);
-        } catch (Exception e) {
-            logger.error("creating the parser {}", e.toString());
-            System.exit(-1);
-        }
+		parser = new ArticleParser(lang);
+		try {
+			wxp = new StreamWikiXmlParser(XMLInput, handler);
+		} catch (Exception e) {
+			logger.error("creating the parser {}", e.toString());
+			System.exit(-1);
+		}
 
-    }
+	}
 
 	/**
 	 * Starts the parsing
@@ -139,8 +139,8 @@ public class WikipediaArticleReader {
 	public void start() throws IOException, SAXException {
 
 		wxp.parse();
-        if (toJsonFile)
-            out.close();
+		if (toJsonFile)
+			out.close();
 		logger.info(sw.stat("articles"));
 	}
 
@@ -189,12 +189,12 @@ public class WikipediaArticleReader {
 			parser.parse(article, page.getText());
 
 			try {
-                if(toJsonFile){
-				    out.write(article.toJson());
-				    out.write("\n");
-                }else{
-                    setJson(article.toJson());
-                }
+				if(toJsonFile){
+					out.write(article.toJson());
+					out.write("\n");
+				}else{
+					setJson(article.toJson());
+				}
 			} catch (IOException e) {
 				logger.error("writing the output file {}", e.toString());
 				System.exit(-1);
@@ -206,11 +206,11 @@ public class WikipediaArticleReader {
 		}
 	}
 
-    public String getJson() {
-        return json;
-    }
+	public String getJson() {
+		return json;
+	}
 
-    public void setJson(String json) {
-        this.json = json;
-    }
+	public void setJson(String json) {
+		this.json = json;
+	}
 }
