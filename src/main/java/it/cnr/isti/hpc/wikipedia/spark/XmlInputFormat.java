@@ -22,9 +22,8 @@ import java.nio.charset.StandardCharsets;
 
 /*
 * Most of this class comes from the book : "Advanced Analytics with Spark"
-* https://github.com/sryza/aas
+* Please refer to : https://github.com/sryza/aas for the authors.
 *
-* @author David Przybilla <david.przybilla@idioplatform.com>
 * */
 public class XmlInputFormat extends TextInputFormat {
 
