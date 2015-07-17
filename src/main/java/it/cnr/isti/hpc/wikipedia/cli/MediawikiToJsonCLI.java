@@ -17,7 +17,7 @@ package it.cnr.isti.hpc.wikipedia.cli;
 
 import it.cnr.isti.hpc.cli.AbstractCommandLineInterface;
 import it.cnr.isti.hpc.wikipedia.article.Article;
-import it.cnr.isti.hpc.wikipedia.parallel.SplitUtil;
+import it.cnr.isti.hpc.wikipedia.parallel.ParallelJsonpediaParser;
 import it.cnr.isti.hpc.wikipedia.reader.WikipediaArticleReader;
 import it.cnr.isti.hpc.wikipedia.spark.WikipediapediaRDD;
 
@@ -121,7 +121,7 @@ public class MediawikiToJsonCLI extends AbstractCommandLineInterface {
             new WikipediapediaRDD(input, lang, sc).getXMLArticles().saveAsTextFile(splitXmlFolder);
 
             System.out.println("Exporting to json..");
-            SplitUtil.exportToJsonpedia(splitXmlFolder, output, lang);
+            ParallelJsonpediaParser.exportToJsonpedia(splitXmlFolder, output, lang);
         }
 
         /*
