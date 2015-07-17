@@ -3,6 +3,7 @@ package it.cnr.isti.hpc.wikipedia.parallel
 import java.io.{File, FileWriter}
 
 import it.cnr.isti.hpc.wikipedia.reader.WikipediaArticleReader
+import org.apache.commons.io.FileUtils
 
 object ParallelJsonpediaParser{
 
@@ -43,6 +44,8 @@ object ParallelJsonpediaParser{
       try {
         println("starting parsing wiki.." + file.getAbsolutePath)
         wap.start
+        //Deleting the input xml file to assure enough space
+        FileUtils.deleteQuietly(file)
       }
       catch {
         case e: Exception => {

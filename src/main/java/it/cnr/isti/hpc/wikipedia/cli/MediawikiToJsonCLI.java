@@ -21,10 +21,13 @@ import it.cnr.isti.hpc.wikipedia.parallel.ParallelJsonpediaParser;
 import it.cnr.isti.hpc.wikipedia.reader.WikipediaArticleReader;
 import it.cnr.isti.hpc.wikipedia.spark.WikipediapediaRDD;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.spark.SparkConf;
 import org.apache.spark.SparkContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.File;
 
 /**
  * MediawikiToJsonCLI converts a Wikipedia Dump in Json.
@@ -119,6 +122,7 @@ public class MediawikiToJsonCLI extends AbstractCommandLineInterface {
 
             System.out.println("splitting wikipedia dump..");
             new WikipediapediaRDD(input, lang, sc).getXMLArticles().saveAsTextFile(splitXmlFolder);
+
 
             System.out.println("Exporting to json..");
             ParallelJsonpediaParser.exportToJsonpedia(splitXmlFolder, output, lang);
