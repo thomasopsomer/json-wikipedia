@@ -63,9 +63,9 @@ public class WikipediaArticleReader {
 
 	private boolean toJsonFile = true;
 
-	private static ProgressLogger pl = new ProgressLogger("parsed {} articles",
-			10000);
-	private static Stopwatch sw = new Stopwatch();
+	//private static ProgressLogger pl = new ProgressLogger("parsed {} articles",
+	//		10000);
+	//private static Stopwatch sw = new Stopwatch();
 
 	/**
 	 * Generates a converter from the xml to json dump.
@@ -141,13 +141,13 @@ public class WikipediaArticleReader {
 		wxp.parse();
 		if (toJsonFile)
 			out.close();
-		logger.info(sw.stat("articles"));
+		//logger.info(sw.stat("articles"));
 	}
 
 	private class JsonConverter implements IArticleFilter {
 		public void process(WikiArticle page, Siteinfo si) {
-			pl.up();
-			sw.start("articles");
+			//pl.up();
+			//sw.start("articles");
 			String title = page.getTitle();
 			String id = page.getId();
 			String namespace = page.getNamespace();
@@ -160,20 +160,20 @@ public class WikipediaArticleReader {
 			if (page.isTemplate()) {
 				type = Type.TEMPLATE;
 				// FIXME just to go fast;
-				sw.stop("articles");
+				//sw.stop("articles");
 				return;
 			}
 
 			if (page.isProject()) {
 				type = Type.PROJECT;
 				// FIXME just to go fast;
-				sw.stop("articles");
+				//sw.stop("articles");
 				return;
 			}
 			if (page.isFile()) {
 				type = Type.FILE;
 				// FIXME just to go fast;
-				sw.stop("articles");
+				//sw.stop("articles");
 				return;
 			}
 			if (page.isMain())
@@ -200,7 +200,7 @@ public class WikipediaArticleReader {
 				System.exit(-1);
 			}
 
-			sw.stop("articles");
+			//sw.stop("articles");
 
 			return;
 		}
