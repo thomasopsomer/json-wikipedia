@@ -1,6 +1,7 @@
 package it.cnr.isti.hpc.wikipedia.parallel
 
 import java.io.{File, FileWriter}
+import java.util.concurrent.atomic.AtomicInteger
 
 import it.cnr.isti.hpc.wikipedia.reader.WikipediaArticleReader
 import org.apache.commons.io.FileUtils
@@ -39,10 +40,14 @@ object ParallelJsonpediaParser{
   def exportToJsonpedia(pathToFiles:String, output:String, lang:String): Unit ={
     val wikiXmlFiles = new File(pathToFiles).listFiles().filter(_.getName().startsWith("part"))
     appendHeaderFooter(wikiXmlFiles)
+
+    val total = wikiXmlFiles.length
+    val done = new AtomicInteger()
+
     wikiXmlFiles.par.map{ file =>
       val wap: WikipediaArticleReader = new WikipediaArticleReader(file.getAbsolutePath, output + "/" + file.getName + ".json", lang)
       try {
-        println("starting parsing wiki.." + file.getAbsolutePath)
+        println("%s%% done".format(done.incrementAndGet().floatValue()/total * 100))
         wap.start
         //Deleting the input xml file to assure enough space
         FileUtils.deleteQuietly(file)
