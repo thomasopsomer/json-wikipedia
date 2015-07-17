@@ -17,6 +17,7 @@ package it.cnr.isti.hpc.wikipedia.cli;
 
 import it.cnr.isti.hpc.cli.AbstractCommandLineInterface;
 import it.cnr.isti.hpc.wikipedia.article.Article;
+import it.cnr.isti.hpc.wikipedia.parallel.SplitUtil;
 import it.cnr.isti.hpc.wikipedia.reader.WikipediaArticleReader;
 import it.cnr.isti.hpc.wikipedia.spark.WikipediapediaRDD;
 
