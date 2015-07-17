@@ -4,7 +4,7 @@
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
  *  Unless required by applicable law or agreed to in writing, software
@@ -17,7 +17,8 @@ package it.cnr.isti.hpc.wikipedia.cli;
 
 import it.cnr.isti.hpc.cli.AbstractCommandLineInterface;
 import it.cnr.isti.hpc.wikipedia.article.Article;
-import it.cnr.isti.hpc.wikipedia.spark.JsonpediaRDD;
+import it.cnr.isti.hpc.wikipedia.reader.WikipediaArticleReader;
+import it.cnr.isti.hpc.wikipedia.spark.WikipediapediaRDD;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.SparkContext;
@@ -34,7 +35,7 @@ import org.slf4j.LoggerFactory;
  * produces in wikipedia-dump.json the JSON version of the dump. Each line of the file contains an article 
  * of dump encoded in JSON. Each JSON line can be deserialized in an Article object, which represents an 
  * <b> enriched </b> version of the wikitext page. The Article object contains: 
- * 
+ *
  * <ul>
  * <li> the title (e.g., Leonardo Da Vinci);</li>
  * <li> the wikititle (used in Wikipedia as key, e.g., Leonardo_Da_Vinci);</li>
@@ -53,7 +54,7 @@ import org.slf4j.LoggerFactory;
  * <li> a list of terms highlighted in the article;</li>
  * <li> if present the infobox.</li>
  * </ul>
- * 
+ *
  * Once you have created (or downloaded) the JSON dump (say <code>wikipedia.json</code>), you can iterate over the articles of the collection 
  * easily using this snippet: 
  * <br/>
@@ -64,48 +65,77 @@ import org.slf4j.LoggerFactory;
  * RecordReader<Article> reader = new RecordReader<Article>(
  * 			"wikipedia.json",new JsonRecordParser<Article>(Article.class)
  * ).filter(TypeFilter.STD_FILTER);
- * 
+ *
  * for (Article a : reader) {
  * 	 // do what you want with your articles	
  * }
- * 
+ *
  * }
  * </pre>
  * <br/>
  * <br/>
- * 
+ *
  * You can also add some filters in order to iterate on only certain articles (in the example 
  * we used only the standard type filter, which excludes meta pages e.g., Portal: or User: pages. 
- * 
+ *
  * @see Article
  * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it created on 21/nov/2011
  */
 public class MediawikiToJsonCLI extends AbstractCommandLineInterface {
-	/**
-	 * Logger for this class
-	 */
-	private static final Logger logger = LoggerFactory
-			.getLogger(MediawikiToJsonCLI.class);
+    /**
+     * Logger for this class
+     */
+    private static final Logger logger = LoggerFactory
+            .getLogger(MediawikiToJsonCLI.class);
 
-	private static String[] params = new String[] { INPUT, OUTPUT, "lang" };
+    private static String[] params = new String[] { INPUT, OUTPUT, "lang", "action" };
 
-	private static final String USAGE = "java -cp $jar "
-			+ MediawikiToJsonCLI.class
-			+ " -input wikipedia-dump.xml.bz -output wikipedia-dump.json -lang [en|it]";
+    private static final String USAGE = "java -cp $jar "
+            + MediawikiToJsonCLI.class
+            + " -input wikipedia-dump.xml.bz -output wikipedia-dump.json -lang [en|it]";
 
-	public MediawikiToJsonCLI(String[] args) {
-		super(args, params, USAGE);
-	}
+    public MediawikiToJsonCLI(String[] args) {
+        super(args, params, USAGE);
+    }
 
-	public static void main(String[] args) {
-		MediawikiToJsonCLI cli = new MediawikiToJsonCLI(args);
-		String input = cli.getInput();
-		String output = cli.getOutput();
-		String lang = cli.getParam("lang");
-		SparkConf conf = new SparkConf().setMaster("local[*]")
-				.setAppName("Mediawiki to Json");
-		SparkContext sc = new SparkContext(conf);
-		new JsonpediaRDD(input, lang, sc).parse().saveAsTextFile(output);
-	}
+    public static void main(String[] args) {
+        MediawikiToJsonCLI cli = new MediawikiToJsonCLI(args);
+        String input = cli.getInput();
+        String output = cli.getOutput();
+        String lang = cli.getParam("lang");
+        String action = cli.getParam("action");
+
+        /*
+        * Splits a big Wikipedia XML Dump into
+        * a list of smaller Wikipedia XML Dumps files
+        * Parses each of the smaller wikis
+        * */
+        if (action.equals("export-parallel")){
+            SparkConf conf = new SparkConf().setMaster("local[*]")
+                    .setAppName("Mediawiki to Json");
+            SparkContext sc = new SparkContext(conf);
+            String splitXmlFolder = output + "/" + "split_xml";
+
+            System.out.println("splitting wikipedia dump..");
+            new WikipediapediaRDD(input, lang, sc).getXMLArticles().saveAsTextFile(splitXmlFolder);
+
+            System.out.println("Exporting to json..");
+            SplitUtil.exportToJsonpedia(splitXmlFolder, output, lang);
+        }
+
+        /*
+        * Exports to Jsonpedia using a single thread.
+        * */
+        if(action.equals("export")){
+            WikipediaArticleReader wap = new WikipediaArticleReader(input, output, lang);
+            try {
+                wap.start();
+            } catch (Exception e) {
+                logger.error("parsing the mediawiki {}", e.toString());
+                System.exit(-1);
+            }
+        }
+
+    }
 
 }
