@@ -93,7 +93,7 @@ public class MediawikiToJsonCLI extends AbstractCommandLineInterface {
 
     private static final String USAGE = "java -cp $jar "
             + MediawikiToJsonCLI.class
-            + " -input wikipedia-dump.xml.bz -output wikipedia-dump.json -lang [en|it]";
+            + " -input wikipedia-dump.xml.bz -output wikipedia-dump.json -lang [en|it] -action[export-parallel|export]";
 
     public MediawikiToJsonCLI(String[] args) {
         super(args, params, USAGE);
