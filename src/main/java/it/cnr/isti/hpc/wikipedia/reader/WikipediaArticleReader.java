@@ -21,9 +21,7 @@ import info.bliki.wiki.dump.Siteinfo;
 import info.bliki.wiki.dump.WikiArticle;
 
 import info.bliki.wiki.dump.WikiXMLParser;
-import it.cnr.isti.hpc.benchmark.Stopwatch;
 import it.cnr.isti.hpc.io.IOUtils;
-import it.cnr.isti.hpc.log.ProgressLogger;
 import it.cnr.isti.hpc.wikipedia.article.Article;
 import it.cnr.isti.hpc.wikipedia.article.Article.Type;
 import it.cnr.isti.hpc.wikipedia.parser.ArticleParser;
@@ -63,9 +61,6 @@ public class WikipediaArticleReader {
 
 	private boolean toJsonFile = true;
 
-	//private static ProgressLogger pl = new ProgressLogger("parsed {} articles",
-	//		10000);
-	//private static Stopwatch sw = new Stopwatch();
 
 	/**
 	 * Generates a converter from the xml to json dump.
@@ -141,13 +136,10 @@ public class WikipediaArticleReader {
 		wxp.parse();
 		if (toJsonFile)
 			out.close();
-		//logger.info(sw.stat("articles"));
 	}
 
 	private class JsonConverter implements IArticleFilter {
 		public void process(WikiArticle page, Siteinfo si) {
-			//pl.up();
-			//sw.start("articles");
 			String title = page.getTitle();
 			String id = page.getId();
 			String namespace = page.getNamespace();
@@ -159,21 +151,15 @@ public class WikipediaArticleReader {
 				type = Type.CATEGORY;
 			if (page.isTemplate()) {
 				type = Type.TEMPLATE;
-				// FIXME just to go fast;
-				//sw.stop("articles");
 				return;
 			}
 
 			if (page.isProject()) {
 				type = Type.PROJECT;
-				// FIXME just to go fast;
-				//sw.stop("articles");
 				return;
 			}
 			if (page.isFile()) {
 				type = Type.FILE;
-				// FIXME just to go fast;
-				//sw.stop("articles");
 				return;
 			}
 			if (page.isMain())
@@ -199,8 +185,6 @@ public class WikipediaArticleReader {
 				logger.error("writing the output file {}", e.toString());
 				System.exit(-1);
 			}
-
-			//sw.stop("articles");
 
 			return;
 		}
