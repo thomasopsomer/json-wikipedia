@@ -17,11 +17,11 @@ json-wikipedia ![json-wikipedia](https://dl.dropboxusercontent.com/u/4663256/tmp
 
 Enjoy a dockerized image:
 
-   `docker run -v <LOCALPATH>:/mnt -i -t dav009/jsonwikipedia  -input <PATHTOWIKI> -output <OUTPUTPATH> -lang <LANG>`
+   `docker run -v <LOCALPATH>:/mnt -i -t dav009/jsonwikipedia  -input <PATHTOWIKI> -output <OUTPUTPATH> -lang <LANG> -action export-parallel`
 
  For example if my `english_wikipedia.dump` lives in : `/david/data/english_wikipedia.dump` I could run it as:
 
-   `docker run -v /david/data:/mnt -i -t dav009/jsonwikipedia -input /mnt/english_wikipedia.dump -output /mnt/english_wikipedia.json -lang en`
+   `docker run -v /david/data:/mnt -i -t dav009/jsonwikipedia -input /mnt/english_wikipedia.dump -output /mnt/english_wikipedia.json -lang en -action export-parallel`
 
 Note that the output path corresponds to a path within the docker container. In the given example the output path is part of the mounted volume, so it will be available at the host machine.
 
@@ -34,9 +34,13 @@ Note that the output path corresponds to a path within the docker container. In 
 4. Uncompress the Wikipedia Dump
 5. do:
 
-	SPARKFOLDER/bin/spark-submit --driver-memory 10G --class it.cnr.isti.hpc.wikipedia.cli.MediawikiToJsonCLI json-wikipedia-1.0.0-jar-with-dependencies.jar -input <PATHTODBPEDIADUMP> -output <PATHTONEWJSONPEDIA> -lang <LANG>
+	SPARKFOLDER/bin/spark-submit --driver-memory 10G --class it.cnr.isti.hpc.wikipedia.cli.MediawikiToJsonCLI json-wikipedia-1.0.0-jar-with-dependencies.jar -input <PATHTODBPEDIADUMP> -output <PATHTONEWJSONPEDIA> -lang <LANG> -action export-parallel
 
 this produces in `<PATHTONEWJSONPEDIA>` the JSON version of the dump
+
+You can also call Jsonpedia the usual way but it will use a single thread to process the wiki:
+
+    java -cp target/json-wikipedia-1.0.0-jar-with-dependencies.jar it.cnr.isti.hpc.wikipedia.cli.MediawikiToJsonCLI -input wikipedia-dump.xml.bz -output wikipedia-dump.json[.gz] -lang [en|it] -action export
 
 ### How does Jsonpedia look like?
 

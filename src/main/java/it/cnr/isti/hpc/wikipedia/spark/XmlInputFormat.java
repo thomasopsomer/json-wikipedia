@@ -136,11 +136,11 @@ public class XmlInputFormat extends TextInputFormat {
         public Text getCurrentValue() throws IOException, InterruptedException {
             JsonpediaReader jsonWikiParser = new JsonpediaReader(currentValue.toString(), LANG);
             try {
-                return new Text(jsonWikiParser.getJson());
+                return new Text(currentValue.toString());
             }
             catch (Exception e){
-                System.out.println("Error parsing wikipedia page");
-                return new Text(new String("Error parsing wikipedia page"));
+                System.out.println("error parsing xml..");
+                return new Text("Error parsing xml");
             }
         }
 
