@@ -188,7 +188,6 @@ public class ArticleTest {
 		assertThat(uris, hasItems("Yū_Hayami", "Takumi_Hayami", "Hayami_District,_Ōita", "Mokomichi_Hayami"));
 		assertThat(anchors, hasItems("Takumi Hayami", "Dogen Handa", "Sky Girls"));
 		testAnchorsInText(a);
-
     }
 
 
@@ -212,12 +211,10 @@ public class ArticleTest {
 	* they have been extracted from.
 	* */
 	private void testAnchorsInText(Article article){
-		// first paragraph
 		for(ParagraphWithLinks p:  article.getParagraphsWithLinks()){
 			for(Link link: p.getLinks()){
 				String anchorInPar = p.getParagraph().substring(link.getStart(),link.getEnd() );
 				assertEquals(anchorInPar, link.getAnchor());
-
 			}
 		}
 	}
