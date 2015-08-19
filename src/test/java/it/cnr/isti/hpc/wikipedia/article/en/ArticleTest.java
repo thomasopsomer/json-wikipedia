@@ -185,7 +185,7 @@ public class ArticleTest {
 			}
 		}
 
-		assertThat(uris, hasItems("Yū_Hayami", "Takumi_Hayami", "Hayami_District,_Ōita", "Mokomichi_Hayami"));
+		assertThat(uris, hasItems("Yū_Hayami", "Takumi_Hayami", "Hayami_District,_Ōita", "Mokomichi_Hayami", "H2O:_Footprints_in_the_Sand"));
 		assertThat(anchors, hasItems("Takumi Hayami", "Dogen Handa", "Sky Girls"));
 		testAnchorsInText(a);
     }
