@@ -1,0 +1,10 @@
+language: java
+jdk:
+- oraclejdk7
+install: mvn clean test package
+notifications:
+  hipchat:
+    rooms:
+      secure: HAIO6qjP1Os4yCduLwRfNrXP9K5v3hOpbXs/HOcoPzh0WACTNZUBJx8GPUWlcUJlzaxkUG05QC91dTn2kTyNteFE9xayKw347i7xywcYDttJdEL8M0agIkZowyrOfmiG+wFv/vCayZpf0T/MPYE1gDvFeP4yuP7CU0pdy1j0SRUkHvcpoXcx1OjbW7kMbiO1WedhzGZwrLWabw8UmNybvoyVSZmtBd4acRuOfzOfbynWoWL/9HD9jUoeCIbQeXWFxXGnQb22QpNWRYu7ZMH1ppkE/lI5zJtqZS5BjfEfK3tql4WaL72r4xO4uHkqi0xjUlP0iyQi4WW9G1PGFz6GmZSCrr04eyRQovhEaQcoces4+Q+uT/3pHplT12kE8y5wGTwYJlCfIRjGYN/uqfT6EEdl+8E4ZCA/o3t7rEHrRqxD98Pt+Q/y+GJxtYmGr4n+HAGCfa3BE4uij3N7EisO6mJ7NtMp5g8UGEvnqFV/eV46Urhoih4ILPhTkMKvX7PRxnSvrqE7toY9PXC5Ufkmt5TU7RmTNRT1cnH28MqlpeywWKNkNr8I6chfUCDNeEHT6Ckj00/l+CbQfNtQWQt7XApcCui0cxvTuZSrAKVzNTrWKcN/tMP5XyJ6t/bxBZAFDV4YHzK8fwzNHjz71sLGYukdvls4yLsEW74JqiQZ6Oo=
+    template:
+        - 'Build #%{build_number} (%{commit}) of %{repository_name}/%{branch} %{result} (%{duration}) %{build_url}'
