@@ -65,6 +65,7 @@ public class ParserTest {
                 "Image:Bb_7_svrr_staunton,_va_08292010.jpg|BB 7 with sisters, south on the [[Shenandoah Valley Railroad (short-line)|Shenandoah Valley Railroad]] in [[Staunton, Virginia]]. Having just made a pick up of Empty Cars to take West.\n" +
                 "Image:image_with_no_par.jpg\n" +
                 "Image:image_with_par.jpg|Something [[Spiderman]]\n" +
+                "|\n" +
                 "</gallery>";
 
         MediaWikiParserFactory pf = new MediaWikiParserFactory(WikiConstants.Language.english);

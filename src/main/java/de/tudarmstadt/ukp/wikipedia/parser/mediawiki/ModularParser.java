@@ -1074,7 +1074,8 @@ public class ModularParser implements MediaWikiParser,
                     for (String imageParagraph : tokenize(sm, startSpan.getEnd(), endSpan
                         .getStart(), lineSeparator))
                     {
-                        String[] splitImageParagraph = imageParagraph.split("\\|");
+						String[] splitImageParagraph = imageParagraph.split("\\|", -1);
+
                         String imageLink = "";
                         if(splitImageParagraph.length == 1){
                              // Figures without a paragraph
