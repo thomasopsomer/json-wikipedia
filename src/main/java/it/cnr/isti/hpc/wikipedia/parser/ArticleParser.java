@@ -80,7 +80,6 @@ public class ArticleParser {
             logger.warn("Text is null for article {}", article.getTitle());
         } else {
             String cleanedMediawiki = removeTemplates(mediawiki);
-            //String cleanedMediawiki=mediawiki;
             ParsedPage page = parser.parse(cleanedMediawiki);
             setRedirect(article, cleanedMediawiki);
 
