@@ -21,7 +21,7 @@ public class Namespaces {
 			"imageannotation", "layer", "layer_talk", "quiz", "quiz_talk", "translations",
 			"translations_talk", "module", "module_talk", "imageidentifers", "wikipedia",
 			"meta", "additional", "portal", "project", "userbox", "userbox_talk", "interpretation",
-			"interpretation_talk"};
+			"interpretation_talk", "wikt", "s", "wp"};
 
 	static String[] namespacesItalian = {"categoria"};
 
