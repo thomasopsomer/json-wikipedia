@@ -1559,7 +1559,7 @@ public class ModularParser implements MediaWikiParser,
 		// Other methods afterwards like language cleaning depends on this
 		// i.e: en:michael jackson  -> ne: ne, topic: en:Michael Jackson
 		//      cite:aaa -> -> ne: cite, Topic: cite:aaa
-		if (Namespaces.isNamespace(extractedNe) | Namespaces.isLanguage(extractedNe.toLowerCase()))
+		if (Namespaces.isNamespace(extractedNe) | Namespaces.isLanguage(extractedNe))
 		{
 			String topic = extractedNe + ":" + extractedTopicId;
 			return new Pair<String, String>(extractedNe.toLowerCase(), topic);
@@ -1669,7 +1669,7 @@ public class ModularParser implements MediaWikiParser,
 				}
 				else
 				{
-					if (Namespaces.allNamespaces.contains(namespace.toLowerCase()))
+					if (Namespaces.isNamespace(namespace))
 					{
 						linkType = Link.type.UNKNOWN;
 					}
