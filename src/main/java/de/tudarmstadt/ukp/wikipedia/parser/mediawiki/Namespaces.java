@@ -10,7 +10,7 @@ import java.util.Set;
  */
 public class Namespaces {
 	static String[] namespacesEnglish = {"image", "talk", "user", "project", "file", "project_talk", "mediaWiki",
-			"mediaWiki_talk", "template", "template_talk", "help", "help_talk",
+			"mediawiki_talk", "template", "template_talk", "help", "help_talk",
 			"category", "category_talk", "thread", "thread_talk", "summary",
 			"summary_talk", "relation", "relation_talk", "property",
 			"property_talk", "type", "type_talk", "form", "form_talk", "concept",
@@ -21,7 +21,10 @@ public class Namespaces {
 			"imageannotation", "layer", "layer_talk", "quiz", "quiz_talk", "translations",
 			"translations_talk", "module", "module_talk", "imageidentifers", "wikipedia",
 			"meta", "additional", "portal", "project", "userbox", "userbox_talk", "interpretation",
-			"interpretation_talk", "wikt", "s", "wp"};
+			"interpretation_talk", "wikt", "s", "wp", "user talk", "w", "wiktionary", "file talk",
+	        "nds", "file", "draft", "user_talk", "m", "wikipedia talk", "wikipedia_talk", "image talk",
+	        "wt", "portal talk", "wikisource", "wikinews", "imdbname", "mw", "wikibooks",
+	        "wikiquote", "book_talk", "wikispecies", "portal_talk", "q", "c", "commons"};
 
 	static String[] namespacesItalian = {"categoria"};
 
