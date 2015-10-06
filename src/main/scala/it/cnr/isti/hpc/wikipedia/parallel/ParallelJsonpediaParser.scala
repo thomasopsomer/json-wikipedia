@@ -25,7 +25,7 @@ object ParallelJsonpediaParser{
       val content = scala.io.Source.fromFile(f,  "utf-8").getLines().toList
       val fw = new FileWriter(f, false)
       fw.write(header +"\n")
-      fw.write(namespaces+"\n")
+      fw.write(namespaces + "\n")
       content.foreach(line => fw.write(line + "\n"))
       fw.write(footer)
       fw.close()
