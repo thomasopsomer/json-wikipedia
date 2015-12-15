@@ -53,6 +53,7 @@ class WikipediaLocaleGenerator:
         aliases = [alias["alias"] for alias in aliases]
         aliases.append(namespace["name"])
         aliases.append(namespace["canonical"])
+        aliases = [alias.replace(" ", "_") for alias in aliases]
         return aliases
 
     def get_list_keyword(self):

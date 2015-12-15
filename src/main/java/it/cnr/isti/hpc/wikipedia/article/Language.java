@@ -23,8 +23,9 @@ package it.cnr.isti.hpc.wikipedia.article;
  * Created on Feb 14, 2013
  */
 public class Language {
-	
+	public static final String DE = "de";
 	public static final String EN = "en";
+	public static final String ES = "es";
 	public static final String IT = "it";
-
+	public static final String PT = "pt";
 }

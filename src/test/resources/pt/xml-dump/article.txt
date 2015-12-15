@@ -1,0 +1,232 @@
+{{Info/Animangá/Cabeçalho
+ |cor_fundo_titulo = silver
+ |cor_borda_titulo = silver
+ |cor_fonte_titulo = black
+ |tamanho          = 300px
+ |tamanho_col1     = 33%
+ | título          = Mobile Suit Gundam 00
+ | título original = Mobile Suit Gundam 00
+ | público alvo    = [[Adolescentes]], [[Crianças]]
+ |genero           = [[ficção]], [[Mecha]]
+}}
+{{Info/Animangá/Anime
+ |cor_fundo_titulo = silver
+ |cor_borda_titulo = silver
+ |cor_fonte_titulo = black
+ |titulo           = Mobile Suit Gundam 00
+ |diretor          = Seiji Mizushima
+ |estudio          = [[Sunrise]]
+ |data_inicio      = October 6, 2007
+ |data_fim         = March 29, 2009
+ |nr_episodios     = 50
+}}
+{{Info/Animangá/Rodapé}}
+
+'''{{Japonês|Mobile Suit Gundam 00|機動戦士ガンダム00|Kidō Senshi Gandamu 00}}'''é a sétima versão da saga Gundam, produzida pelo estúdio [[Sunrise]].
+
+É dirigido por Seiji Mizushima, roteirizado por Yousuke Kuroda e com character design de Yun Kouga. Os 25 episódios da primeira temporada foram anunciados em um trailer de 15 segundos de duração no dia 2 de Junho de [[2007]]. A série começou a ser transmitida pelos canais [[TBS]] e [[MBS]] as 18:00, substituindo o anime Toward the Terra, do dia 5 de Outubro de 2007 e acabou no dia 29 de Março de 2008. A segunda temporada contendo novamente 25 episódios começou a ser exibida em 5 de Outubro de 2008 e foi concluída no dia 29 de Março de 2009. Uma continuação em filme foi anunciada no último capítulo da série, previsto para 2010.
+
+''Mobile Suit Gundam 00'' é a primeira série de Gundam produzida em [[Widescreen]] e em [[HDTV]], também é a primeira série de Gundam a não utilizar um calendário fictício para a trama, Gundam 00 é situado no calendário cristão "Depois de Cristo" (Anno Domini).
+
+A série foi eleita o melhor anime do ano em 2008 na premiação [[Animage#Anime Grand Prix|Anime Grand Prix]].
+Something something in [[ja:japaneselang]]
+
+== História ==
+A história passa-se no ano de 2307 A.D. Nesta época, o petróleo acabou 50 anos antes e a humanidade tem que  passar a confiar exclusivamente na energia solar. Por isso foram construídos ao longo das décadas os 3 gigantescos elevadores orbitais que saem da Terra e alcançam o espaço, ao redor de um super estrutura de mais de 50 mil quilômetros de extensão. São dessas estruturas que a humanidade capta a energia solar.
+
+No entanto, este mundo está dividido em três grandes blocos econômicos: A União de Energia Solar e Nações Livres, também conhecida por "UNION"(ユニオン); constituída por ([[Estados Unidos]], [[Austrália]] e [[Japão]]) e com seu pilar localizado na floresta amazônica; A liga de Reforma Humana (人類革新連盟; constituída por, [[China]], [[Rússia]] e [[Índia]]) a.k.a "HRL" - e com seu pilar localizado numa ilha da Oceania, e a União Avançada Europeia constituída pela [[União Europeia]] também conhecida por "AEU", com seu pilar localizado na África.
+
+O mundo sofre de constantes guerras por motivos econômicos, sociais e políticos, e sofre com a tensão gerada pela rivalidade entre as 3 grandes blocos de poder, empacando o desenvolvimento da humanidade. Visando mudar esse cenário e fazer a humanidade evoluir para desvendar o espaço, surge uma organização paramilitar chamada “Celestial Being”, uma organização secreta que começa a atacar todos com o objetivo de dar um fim as guerras do mundo com o uso de força bruta. Para tal, são usados os Gundams, mobile suits muito mais avançados tecnicamente, e poderosos, do que qualquer outro existente.
+
+== Personagens ==
+{{japonês|'''Setsuna F Seiei'''|刹那・F・セイエイ|Setsuna Efu Seiei}}
+:É o protagonista principal da série. Foi descoberto pela Celestial Being quando ainda tinha 14 anos devido ao seu grande potencial como piloto, tornando-se um dos quatro Gundam Meisters e pilotando o GN-001 Gundam Exia. Setsuna é seu nome código dado pela organização, sendo seu nome verdadeiro '''Soran Ibrahim'''. Ainda quando criança participou como um soldado na guerra da república de Kurdish, assassinando seus pais sob influência de '''Ali Al-Saachez''', para provar sua devoção a Deus. Com o passar do tempo, após acordar da lavagem cerebral que sofrera anteriormente, ele cria um ódio profundo por Saachez e deixa de crêr que um Deus exista nesse mundo. Setsuna então passa a acreditar que a guerra só pode ser parada através de confrontos diretos e por isso tem pouca tolerância à diplomatas e políticos, acreditando que a paz deles apenas prolongue os conflitos e cause mais mortes.
+
+{{japonês|'''Lockon Stratos'''|ロックオン・ストラトス|Rokkuon Sutoratosu}}
+:Lockon decidiu entrar para a Celestial Being após perder seus pais e a sua irmã mais nova em um atentado terrorista na [[Irlanda]]; devido a esse fato ele odeia terroristas. Sendo o piloto mais velho, ele é considerado o líder da equipe dos Gundam Meisters. Possui um pequeno robô laranja conhecido como Haro, que o auxilia no controle do rifle/sniper do GN-002 Gundam Dynames, tendo papel importante na batalha contra Ali Al-Saachez, que estava diretamente envolvido com o atentado terrorista que causou a morte de sua família.
+
+{{japonês|'''Allelujah Haptism'''|アレルヤ・ハプティズム|Areruya Haputizumu}}
+:Allelujah é o piloto do GN-003 Gundam Kyrios. Orfão, passou a sua infância na List of Anno Domini factions#Human Reform League|Human Reform League como objeto experimental de pesquisa para "fabricação" de um Super Soldado. Parecendo ser o mais gentil e racional dos Gundam Meisters, ele possui um "alter ego"(segunda personalidade), instável e muitas vezes sádico, fruto de um transtorno de personalidade, auto-nomeada de Hallelujah dentro dele, que foi resultado dos experimentos para criação de um super-soldado.
+
+{{japonês|'''Tieria Erde'''|ティエリア・アーデ|Tieria Āde}}
+:Um rapaz com um tipo raro de beleza, do qual sua história, nacionalidade e origens permanecem em mistério, que apesar de seu tom suave, pode dar uma sensação de frias intenções. Valoriza a missão acima de todas as outras questões, incluindo a vida, e não apresenta qualquer "preocupação" para com sua equipe. Como o Gundam Meister de GN-005 Gundam Virtue, Tieria segue fielmente as instruções do supercomputador Veda e faz qualquer coisa para manter o sigilo das informações das missões dadas pelo computador da Celestial Being, podendo até mesmo, caso seja necessário, matar outro Gundam Meisters ou a si mesmo para atingir esse fim. Comparado com o resto dos gundam meisters, Tieria é com certeza o mais enigmático. Na segunda temporada da série descobre-se que Tiéria é um Inovator, uma espécie de super-humanos, sendo que o líder dos Inovators também consegue ter acesso direto ao computador Veda.<ref name="G00">{{cite web|url=http://www.gundam00.net/character/index.html|title=''Mobile Suit Gundam 00 Official Site''|publisher=[[Sunrise]]|accessdate=2008-02-05}}</ref>
+
+== Staff ==
+* Planificação: [[Sunrise]]
+* Ideia original: [[Hajime Yatate]], [[Yoshiyuki Tomino]]
+* Séries de composição e script: [[Yōsuke Kuroda]]
+* Desenho de personagens: [[Yun Kōga]]
+* Animação de personagens: Michinori Chiba
+* Desenho de [[Mechas]]: Kanetake Ebikawa, Takayuki Yanase, [[Kunio Okawara]], Seiichi Nakatani
+* Mechanical concept design: Hitoshi Fukuchi, Kenji Teraoka, Nobuto Sue
+* Animação de Mechas: Seiichi Nakatani
+* Diretor de som: Masafumi Mima
+* Música: [[Kenji Kawai]]
+* Setting cooperation: Isaku Okabe
+* Produtores executivos: [[Seiji Takeda]] (Mainichi Broadcasting System), Yasuo Miyakawa (Sunrise)
+* Produtores: Hirō Maruyama (Mainichi Broadcasting System), Hirōmi Iketani (Sunrise), Shin Sasaki (Sunrise)
+* Diretor: [[Seiji Mizushima]]
+* Cooperação na produção: [[Sotsu]]
+* Produção: [[Sunrise (companhia)|Sunrise]], [[Mainichi Broadcasting System]]
+
+== Seiyuu/Dubladores ==
+* Setsuna F Seiei: [[Mamoru Miyano]]
+* Lockon Stratos: [[Shinichiro Miki]]
+* Allelujah Haptism: [[Hiroyuki Yoshino]]
+* Tieria Erde: [[Hiroshi Kamiya]]
+* Sumeragi Lee Noriega: [[Yōko Honna]]
+* Alejandro Corner: [[Yasunori Matsumoto]]
+* Wan Ryūmin: [[Kei Shindō]]
+* Hong long: [[Kenji Takahashi]]
+* Lasse Aion:[[Hiroki Touchi]]
+* Felt Grace: [[Ayahi Takagaki]]
+* Christina Sierra: [[Arise Satō]]
+* Lichtendahl Caeli: [[Masataka Azuma]]
+* Haro: [[Arisa Ogasawara]]
+* Billy Katagiri: [[Yuji Ueda]]
+* Graham Acre: [[Yuichi Nakamura (seiyū)|Yūichi Nakamura]]
+* Patrick Corlasawar: [[Kenji Hamada]]
+* Saji Crossroad: [[Miyu Irino]]
+* Kinue Crossroad: [[Aya Endo]]
+* Louise Halevy: [[Chiwa Saitō]]
+* Marina Ismail: [[Ayumi Tsunematsu]]
+* Nena Trinity:  [[Rie Kugimiya]]
+* Sergei Smirnov: [[Unshō Ishizuka]]
+* Aeolia Schrehenberg: [[Chikao Ōtsuka]]
+* Marie Pafacy: [[:en:Arisa Ogasawara|Arisa Ogasawara]]
+* Narrador: [[Tōru Furuya]]. (Amuro Rei na  [[Gundam|série original]])
+
+== Episódios ==
+
+=== Primeira Temporada ===
+
+01 - "Celestial Being" ( Entidade Celestial )
+
+02 - "Gundam Meisters" ( Mestres Gundam )
+
+03 - "O Mundo Em Transformação"
+
+04 - "Negociação Internacional"
+
+05 - "Fuga Da Zona-Limite"
+
+06 - "Sete Espadas"
+
+07 - "Almas Ingratas"
+
+08 - "Retaliação Indiscriminada"
+
+09 - "A Honra De Um Grande Poder"
+
+10 - "Operação: Capturar Gundam"
+
+11 - "Allelujah"
+
+12 - "Aos Limites Dos Ensinamentos Divinos"
+
+13 - "O Retorno Do Santo"
+
+14 - "Alvorecer Da Determinação"
+
+15 - "Asas Despedaçadas"
+
+16 - "Trinity" ( Trindade )
+
+17 - "Ataque Dos Thrones"
+
+18 - "O Alvo Das Intenções Malignas"
+
+19 - "Vínculos"
+
+20 - "Lâmina Da Reforma"
+
+21 - "Caminho Da Destruição"
+
+22 - "Trans-Am"
+
+23 - "Detenha O Mundo"
+
+24 - "Poema Interminável"
+
+25 - "Setsuna"
+
+=== Segunda Temporada ===
+
+26 - "O Segundo Advento Dos Anjos"
+
+27 - "Twin Drive" ( Drives Gêmeos )
+
+28 - "Operação: Resgate Allelujah"
+
+29 - "Uma Razão Para Lutar"
+
+30 - "Terra Natal Em Chamas"
+
+31 - "Cicatriz"
+
+32 - "Entre Reuniões E Partidas"
+
+33 - "Distorção Absoluta"
+
+34 - "Passado Inapagável"
+
+35 - "Luz Celestial"
+
+36 - "Vozes Do 00"
+
+37 - "À Espera No Espaço"
+
+38 - "Ataque À Memento Mori"
+
+39 - "Uma Canção É Ouvida"
+
+40 - "O Som Da Vitória Da Resistência"
+
+41 - "Prelúdio Para A Tragédia"
+
+42 - "Em Meio À Luz Fragmentada"
+
+43 - "Sentimentos Mixados"
+
+44 - "A Sombra Dos Innovators" ( Inovadores )
+
+45 - "Anew Returner"
+
+46 - "Porta Para A Inovação"
+
+47 - "Pelo Bem Do Futuro"
+
+48 - "Flor Da Vida"
+
+49 - "Beyond" ( Além )
+
+50 - "Renascimento"
+
+== Música ==
+-"Daybreak’s Bell" de [[L'Arc~en~Ciel]] na abertura (Opening).(episódios 1-13)
+
+-"Wana" (罠, "Wana") de [[The Back Horn]] nos créditos finais (ending) (episódios 1-13)
+
+-"Ash Like Snow" del grupo [[The Brilliant Green]] (Opening). (epsódios 13-25)
+
+-"Friends" de "[[Stephanie (cantante)|Stephanie]]" é o segundo encerramento (ending) nos episódios 13-24
+
+-"Daybreak's Bell" de [[L'Arc~en~Ciel]] (ending) episódio 25
+
+A trilha sonora correrá a cargo de [[Kenji Kawai]] (compositor, da trilha sonora de [[Ghost in the Shell]], [[Fate/Stay Night]], entre outras séries e filmes de animação).
+
+== Curiosidades ==
+{{Curiosidades}}
+* Nos 30 anos de história de Gundam, esta é a primeira série onde se utiliza [[Nossa Era]].
+* [[Toru Furuya]], o narrador, tem menção especial, já que foi [[Amuro Ray]] e até agora não havia participado em nenhum outro projeto de Gundam salvo este papel. Acredita-se que foi inspirado a participar por seu amigo [[Shuuichi Ikeda]], a qual era [[Char Aznable]], ao vê-lo participar como Gilbert Durandal em [[Gundam SEED Destiny]].
+
+{{referências}}
+
+== Ligações externas ==
+* [http://web.archive.org/web/19991128202059/http://www.gundamofficial.com/ Gundam Official] Página Oficial de Gundam e todas as sagas.
+* [http://www.gundam00.net/ Gundam 00] Página oficial da série (japonês)
+* [http://gundam.wikia.com/wiki/The_Gundam_Wiki/ Gundam Wiki] Wiki de Gundam e todas as sagas.
+
+{{esboço-anime}}
+
+[[Categoria:Série Gundam]]

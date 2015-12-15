@@ -59,9 +59,6 @@ object ParallelJsonpediaParser{
     val header = getHeader(pathToSingleWikiDump)
     val namespaces = getNamespaces(pathToSingleWikiDump)
 
-    println("header: " + header )
-    println("namespaces: " + namespaces)
-
 
     val wikiXmlFiles = new File(pathToFiles).listFiles().filter(_.getName().startsWith("part"))
     appendHeaderFooter(wikiXmlFiles, header, namespaces)
@@ -75,7 +72,7 @@ object ParallelJsonpediaParser{
         println("%s%% done".format(done.incrementAndGet().floatValue()/total * 100))
         wap.start
         //Deleting the input xml file to assure enough space
-        FileUtils.deleteQuietly(file)
+        //FileUtils.deleteQuietly(file)
       }
       catch {
         case e: Exception => {

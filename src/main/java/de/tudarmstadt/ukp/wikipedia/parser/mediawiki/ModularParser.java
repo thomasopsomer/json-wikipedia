@@ -78,7 +78,7 @@ public class ModularParser implements MediaWikiParser,
 	}
 
 	public void addNE(String ne){
-		namespaces.add(ne);
+		namespaces.add(ne.toLowerCase());
 	}
 
 	/**
@@ -312,6 +312,10 @@ public class ModularParser implements MediaWikiParser,
 			return false;
 		}
 		return true;
+	}
+
+	private boolean isNamespace(String ne){
+		return this.namespaces.contains(ne.toLowerCase()) | Namespaces.isNamespace(ne);
 	}
 
 	/**
@@ -1566,7 +1570,7 @@ public class ModularParser implements MediaWikiParser,
 		// Other methods afterwards like language cleaning depends on this
 		// i.e: en:michael jackson  -> ne: ne, topic: en:Michael Jackson
 		//      cite:aaa -> -> ne: cite, Topic: cite:aaa
-		if (Namespaces.isNamespace(extractedNe) | Namespaces.isLanguage(extractedNe) | otherNe.contains(extractedNe))
+		if (Namespaces.isNamespace(extractedNe, otherNe) | Namespaces.isLanguage(extractedNe))
 		{
 			String topic = extractedNe + ":" + extractedTopicId;
 			return new Pair<String, String>(extractedNe.toLowerCase(), topic);
@@ -1676,7 +1680,7 @@ public class ModularParser implements MediaWikiParser,
 				}
 				else
 				{
-					if (Namespaces.isNamespace(namespace))
+					if (Namespaces.isNamespace(namespace, this.namespaces))
 					{
 						linkType = Link.type.UNKNOWN;
 					}
@@ -1703,7 +1707,7 @@ public class ModularParser implements MediaWikiParser,
 			// So that the sacked off characters i.e: extra ":"
 			// are sacked off in the final output
 			int lenghtDiff = 0;
-			if(!Namespaces.isLanguage(namespace) && !Namespaces.isNamespace(namespace)){
+			if(!Namespaces.isLanguage(namespace) && !Namespaces.isNamespace(namespace, this.namespaces) ){
 				lenghtDiff = oldtarget.length()  - linkTarget.length();
 			}
 

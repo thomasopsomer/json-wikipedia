@@ -60,8 +60,13 @@ public class Namespaces {
 	}
 
 	public static boolean isNamespace(String ne){
+		return isNamespace(ne, new HashSet<String>());
+	}
+
+	public static boolean isNamespace(String ne, Set<String> otherNE){
 		if (ne==null)
 			return false;
-		return allNamespaces.contains(ne.toLowerCase());
+		String neLowerCase = ne.toLowerCase();
+		return allNamespaces.contains(neLowerCase) || otherNE.contains(neLowerCase) ;
 	}
 }
