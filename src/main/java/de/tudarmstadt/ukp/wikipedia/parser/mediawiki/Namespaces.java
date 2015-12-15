@@ -28,6 +28,8 @@ public class Namespaces {
 
 	static String[] namespacesItalian = {"categoria"};
 
+	static String[] namespacesSpanish = {};
+
 	static String[] namespaces = ArrayUtils.addAll(namespacesEnglish, namespacesItalian);
 
 	// https://en.wikipedia.org/wiki/Help:Interlanguage_links

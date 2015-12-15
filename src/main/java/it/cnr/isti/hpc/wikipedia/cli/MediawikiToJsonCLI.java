@@ -121,11 +121,11 @@ public class MediawikiToJsonCLI extends AbstractCommandLineInterface {
             String splitXmlFolder = output + "/" + "split_xml";
 
             System.out.println("splitting wikipedia dump..");
-            new WikipediapediaRDD(input, lang, sc).getXMLArticles().saveAsTextFile(splitXmlFolder);
+            //new WikipediapediaRDD(input, lang, sc).getXMLArticles().saveAsTextFile(splitXmlFolder);
 
 
             System.out.println("Exporting to json..");
-            ParallelJsonpediaParser.exportToJsonpedia(splitXmlFolder, output, lang);
+            ParallelJsonpediaParser.exportToJsonpedia(splitXmlFolder, output, lang, input);
         }
 
         /*
