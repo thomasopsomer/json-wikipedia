@@ -57,7 +57,7 @@ class WikipediaLocaleGenerator:
 
     def get_list_keyword(self):
         # I think it is not possible to get it as it is not officially a keyword
-        pass
+        return ["list"]
 
     def get_language_keyword(self):
         """
