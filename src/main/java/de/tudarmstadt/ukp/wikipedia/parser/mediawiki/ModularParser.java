@@ -11,10 +11,7 @@
 package de.tudarmstadt.ukp.wikipedia.parser.mediawiki;
 
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,6 +47,7 @@ public class ModularParser implements MediaWikiParser,
 	private boolean deleteTags = true;
 	private boolean showMathTagContent = true;
 	private boolean calculateSrcSpans = true;
+	private Set<String> namespaces = new HashSet<String>();
 
 	/**
 	 * Creates a unconfigurated Parser...
@@ -77,6 +75,10 @@ public class ModularParser implements MediaWikiParser,
 		setShowMathTagContent(showMathTagContent);
 		setCalculateSrcSpans(calculateSrcSpans);
 		setTemplateParser(templateParser);
+	}
+
+	public void addNE(String ne){
+		namespaces.add(ne);
 	}
 
 	/**
@@ -482,7 +484,7 @@ public class ModularParser implements MediaWikiParser,
 
 		for (int i = links.size() - 1; i >= 0; i--)
 		{
-			Pair<String, String> NESF = getLinkNameSpace(links.get(i).getTarget());
+			Pair<String, String> NESF = getLinkNameSpace(links.get(i).getTarget(), this.namespaces);
 			String identifer = NESF.getFirst();
 
 			if (identifer != null && identifers.indexOf(identifer) != -1)
@@ -1544,6 +1546,11 @@ public class ModularParser implements MediaWikiParser,
 
 	public static Pair<String, String> getLinkNameSpace(String target)
 	{
+		return getLinkNameSpace(target, new HashSet<String>());
+	}
+
+	public static Pair<String, String> getLinkNameSpace(String target, Set<String> otherNe)
+	{
 		Pair<String, String> NeTopic = extractNETopic(target);
 
 		String extractedNe = NeTopic.getFirst();
@@ -1559,7 +1566,7 @@ public class ModularParser implements MediaWikiParser,
 		// Other methods afterwards like language cleaning depends on this
 		// i.e: en:michael jackson  -> ne: ne, topic: en:Michael Jackson
 		//      cite:aaa -> -> ne: cite, Topic: cite:aaa
-		if (Namespaces.isNamespace(extractedNe) | Namespaces.isLanguage(extractedNe))
+		if (Namespaces.isNamespace(extractedNe) | Namespaces.isLanguage(extractedNe) | otherNe.contains(extractedNe))
 		{
 			String topic = extractedNe + ":" + extractedTopicId;
 			return new Pair<String, String>(extractedNe.toLowerCase(), topic);
@@ -1631,7 +1638,7 @@ public class ModularParser implements MediaWikiParser,
 
 			// so it is a Link or image!!!
 			List<String> parameters;
-			Pair<String, String> pairNETopic = getLinkNameSpace(linkTarget);
+			Pair<String, String> pairNETopic = getLinkNameSpace(linkTarget, this.namespaces);
 			String namespace = pairNETopic.getFirst();
 			String oldtarget = linkTarget;
 			linkTarget = pairNETopic.getSecond();

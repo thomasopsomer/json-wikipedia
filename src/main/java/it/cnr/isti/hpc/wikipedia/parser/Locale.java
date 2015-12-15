@@ -93,6 +93,10 @@ public class Locale {
 		return getValues("list");
 	}
 
+	public List<String> getNE(){
+		return getValues("namespaces");
+	}
+
 	public List<String> getRedirectIdentifiers() {
 		return getValues("redirect");
 	}

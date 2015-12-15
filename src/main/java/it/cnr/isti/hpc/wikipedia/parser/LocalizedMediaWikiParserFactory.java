@@ -16,6 +16,7 @@
 package it.cnr.isti.hpc.wikipedia.parser;
 
 import de.tudarmstadt.ukp.wikipedia.parser.mediawiki.MediaWikiParserFactory;
+import de.tudarmstadt.ukp.wikipedia.parser.mediawiki.Namespaces;
 
 /**
  * Generates a parser from the proper Locale.
@@ -43,6 +44,9 @@ public class LocalizedMediaWikiParserFactory extends MediaWikiParserFactory {
 		
 		for (String name : locale.getCategoryIdentifiers())
 			getCategoryIdentifers().add(name);
+
+		for (String name: locale.getNE())
+			getNE().add(name);
 	}
 
 }
