@@ -16,11 +16,8 @@ object ParallelJsonpediaParser{
 
   def getNamespaces(pathToSingleWikiDump: String): String ={
     val firstLines = scala.io.Source.fromFile(pathToSingleWikiDump).getLines().slice(0, 90000).toList
-    println(firstLines(10))
     val start = firstLines.indexWhere(l => l.trim.equals("<siteinfo>"))
     val end = firstLines.indexWhere(l => l.trim.equals("</siteinfo>")) + 1
-    println("start:" + start  )
-    println("end: "+ end)
     firstLines.slice(start, end).mkString(" ")
   }
 
@@ -72,7 +69,7 @@ object ParallelJsonpediaParser{
         println("%s%% done".format(done.incrementAndGet().floatValue()/total * 100))
         wap.start
         //Deleting the input xml file to assure enough space
-        //FileUtils.deleteQuietly(file)
+        FileUtils.deleteQuietly(file)
       }
       catch {
         case e: Exception => {

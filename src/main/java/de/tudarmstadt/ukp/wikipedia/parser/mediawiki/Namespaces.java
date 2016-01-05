@@ -26,11 +26,8 @@ public class Namespaces {
 	        "wt", "portal talk", "wikisource", "wikinews", "imdbname", "mw", "wikibooks",
 	        "wikiquote", "book_talk", "wikispecies", "portal_talk", "q", "c", "commons"};
 
-	static String[] namespacesItalian = {"categoria"};
 
-	static String[] namespacesSpanish = {};
-
-	static String[] namespaces = ArrayUtils.addAll(namespacesEnglish, namespacesItalian);
+	static String[] namespaces = ArrayUtils.addAll(namespacesEnglish);
 
 	// https://en.wikipedia.org/wiki/Help:Interlanguage_links
 	// list of iso 639-1 langs
