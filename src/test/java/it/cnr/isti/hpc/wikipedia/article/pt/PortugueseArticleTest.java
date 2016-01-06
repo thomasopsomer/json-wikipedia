@@ -62,7 +62,7 @@ public class PortugueseArticleTest extends ArticleTest {
 
 		assertThat(anchors, hasItems("L'Arc~en~Ciel", "The Brilliant Green", "Anime Grand Prix", "Hajime Yatate"));
 		assertThat(uris, hasItems("Sunrise", "L'Arc~en~Ciel", "The_Brilliant_Green", "Hajime_Yatate", "Mamoru_Miyano" ));
-	    assertFalse(anchors.contains("japaneselang"));
+		assertFalse(anchors.contains("japaneselang"));
 		assertFalse(anchors.contains(":japaneselang"));
 		assertFalse(anchors.contains("ja:japaneselang"));
 	}
