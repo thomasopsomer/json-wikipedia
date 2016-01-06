@@ -39,7 +39,8 @@ public class Article {
 
 	/** The possible types of an article (e.g., template, article, category) **/
 	public enum Type {
-		TEMPLATE, ARTICLE, CATEGORY, DISCUSSION, REDIRECT, DISAMBIGUATION, UNKNOWN, MAIN, LIST, PROJECT, FILE
+		TEMPLATE, ARTICLE, CATEGORY, DISCUSSION, REDIRECT, DISAMBIGUATION, UNKNOWN, MAIN, LIST, PROJECT, FILE,
+		HELP, HELPTALK, USER, USERTALK
 	};
 
 	protected String title = NOTITLE;

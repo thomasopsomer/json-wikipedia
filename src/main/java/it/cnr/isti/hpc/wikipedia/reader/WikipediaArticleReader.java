@@ -154,6 +154,26 @@ public class WikipediaArticleReader {
 				return;
 			}
 
+			if(page.isHelp()){
+				type = Type.HELP;
+				return;
+			}
+
+			if(page.isHelpTalk()){
+				type = Type.HELPTALK;
+				return;
+			}
+
+			if(page.isUser()){
+				type = Type.USER;
+				return;
+			}
+
+			if(page.isUserTalk()){
+				type = Type.USERTALK;
+				return;
+			}
+
 			if (page.isProject()) {
 				type = Type.PROJECT;
 				return;
