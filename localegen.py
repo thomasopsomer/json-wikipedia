@@ -1,9 +1,12 @@
-# locale generator for jsonwikipedia
+# -*- coding: utf-8 -*-
+from collections import OrderedDict
 import requests
 import codecs
 import itertools
 import pycountry
 import argparse
+
+from disambiguations import DISAMBIGUATION_CONSTANTS
 
 
 class WikipediaLocaleGenerator:
@@ -28,7 +31,7 @@ class WikipediaLocaleGenerator:
 
     def generate_locale(self, output_path):
         output = codecs.open(output_path, 'w', 'utf-8')
-        metadata = dict()
+        metadata = OrderedDict()
         metadata['language'] = self.get_language_keyword()
         metadata['disambiguation'] = self.get_disambiguation_keywords()
         metadata['category'] = self.get_category_keywords()
@@ -71,7 +74,7 @@ class WikipediaLocaleGenerator:
 
     def get_magicword(self, canonical_name):
         magicwords = self.metadata["query"]["magicwords"]
-        word = filter(lambda x: x["name"] == canonical_name, magicwords)
+        word = list(filter(lambda x: x["name"] == canonical_name, magicwords))
         aliases = word[0]["aliases"]
         aliases.append(canonical_name)
         return aliases
@@ -108,7 +111,12 @@ class WikipediaLocaleGenerator:
         """
         returns all disambiguation keywords by taking a look at the magicwords
         """
-        return self.get_magicword("disambiguation")
+        default_constants = self.get_magicword("disambiguation")
+        extended_constants = list()
+        if self.language in DISAMBIGUATION_CONSTANTS:
+            extended_constants = DISAMBIGUATION_CONSTANTS[self.language]
+        all_constants = list(set(default_constants + extended_constants))
+        return all_constants
 
 
 def main():
