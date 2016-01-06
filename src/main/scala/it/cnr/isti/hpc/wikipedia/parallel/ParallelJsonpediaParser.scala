@@ -15,10 +15,11 @@ object ParallelJsonpediaParser{
   }
 
   def getNamespaces(pathToSingleWikiDump: String): String ={
-    val firstLines = scala.io.Source.fromFile(pathToSingleWikiDump).getLines().slice(0, 90000).toList
-    val start = firstLines.indexWhere(l => l.trim.equals("<siteinfo>"))
-    val end = firstLines.indexWhere(l => l.trim.equals("</siteinfo>")) + 1
-    firstLines.slice(start, end).mkString(" ")
+    val linesIterator = scala.io.Source.fromFile(pathToSingleWikiDump).getLines().zipWithIndex
+    val start = linesIterator.find(_._1.trim()=="<siteinfo>").getOrElse(("", -1))._2
+    val end = linesIterator.find(_._1.trim()=="</siteinfo>").getOrElse(("",-1))._2
+    val namespaces = scala.io.Source.fromFile(pathToSingleWikiDump).getLines().slice(start, end + 1)
+    namespaces.mkString(" ")
   }
 
   /*
