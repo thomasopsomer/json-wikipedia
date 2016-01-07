@@ -118,12 +118,13 @@ public class ItalianArticleTest extends ArticleTest {
 		Pair<List<String>, List<String>> anchorsAndUris = getAnchorsAndUris(a);
 		List<String> anchors = anchorsAndUris.getFirst();
 		List<String> uris = anchorsAndUris.getSecond();
-		assertThat(uris, hasItems("Harry_Potter", "Sōtō", "Arashiyama", "Kyoto", "Università_degli_Studi_di_Napoli_Federico_II"));
-		assert(uris.size()==7);
+		assertThat(uris, hasItems("Harry_Potter", "Sōtō", "Arashiyama", "Kyoto", "Università_degli_Studi_di_Napoli_Federico_II", "Lo_Hobbit_(trilogia)", "Laaber_Straße", "100%Magazine"));
+		assert(uris.size()==10);
 
 		assertFalse(uris.contains("File:Yukipon_SxH1.jpg"));
 		assertFalse(uris.contains("File:Nunz2.JPG"));
 		assertFalse(uris.contains("Nunz2.JPG"));
+		assertFalse(uris.contains("Lo_Hobbit_%28trilogia%29"));
 
 		testAnchorsInText(a);
 	}
