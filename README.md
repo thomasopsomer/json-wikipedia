@@ -152,6 +152,17 @@ and import the project in your new maven project adding the dependency:
  |-- wikiTitle: string (nullable = true)
 ```
 
+#### Supporting a new Language ####
+
+Supporting a new language requires creating a new locale file with specific language information.
+Most of a locale creation process is automated:
+
+1. Generate a new locale file by using `localegen.py`. As an example for generating a locale for German: `python localegen.py --lang de --o locale-de.properties`
+2. Move that locale to `resources/lang`
+3. Go to [Disambiguation Keywords](https://github.com/dbpedia/extraction-framework/blob/master/core/src/main/scala/org/dbpedia/extraction/wikiparser/impl/wikipedia/Disambiguation.scala) and look for your language keywords
+4. Edit the generated locale and add the keywords found in the previous step  by the end of the line starting with `disambiguation=XX`
+5. Probably you want to add a few language specific tests
+
 #### Useful Links ####
 
   * [**Dexter**](http://dexter.isti.cnr.it) Dexter is an entity annotator, json-wikipedia is used in order to generate the model for performing the annotations. 

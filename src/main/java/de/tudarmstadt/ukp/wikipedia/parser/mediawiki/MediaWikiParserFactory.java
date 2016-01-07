@@ -40,6 +40,7 @@ public class MediaWikiParserFactory {
 	private boolean deleteTags;
 	private boolean showMathTagContent;
 	private boolean calculateSrcSpans;
+	private List<String> namespaces;
 
 	/**
 	 * Creates a new UNCONFIGURATED Parser Factory.
@@ -73,6 +74,7 @@ public class MediaWikiParserFactory {
 		languageIdentifers = new ArrayList<String>();
 		deleteTemplates = new ArrayList<String>();
 		parseTemplates = new ArrayList<String>();
+		namespaces = new ArrayList<String>();
 		showImageText = false;
 		deleteTags = true;
 		showMathTagContent = true;
@@ -258,6 +260,9 @@ public class MediaWikiParserFactory {
 					calculateSrcSpans,
 					null );
 
+			for (String ne: namespaces)
+				mwgp.addNE(ne);
+
 			StringBuilder sb = new StringBuilder();
 			sb.append( lineSeparator + "languageIdentifers: ");
 			for( String s: languageIdentifers ) {
@@ -398,6 +403,11 @@ public class MediaWikiParserFactory {
 	 * Returns the List of Strings which are used to specifiy that a link is an Image.
 	 */
 	public List<String> getImageIdentifers( ){ return imageIdentifers; }
+
+	/**
+	 * Returns the List of Strings which are used to trim NE.
+	 */
+	public List<String> getNE( ){ return namespaces; }
 
 	/**
 	 * Sets the image identifer list.

@@ -16,22 +16,20 @@
 package it.cnr.isti.hpc.wikipedia.article.it;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.matchers.JUnitMatchers.hasItems;
 
-import it.cnr.isti.hpc.wikipedia.article.Article;
-import it.cnr.isti.hpc.wikipedia.article.Language;
-import it.cnr.isti.hpc.wikipedia.article.Link;
-import it.cnr.isti.hpc.wikipedia.article.ParagraphWithLinks;
+import it.cnr.isti.hpc.io.IOUtils;
+import it.cnr.isti.hpc.wikipedia.article.*;
 import it.cnr.isti.hpc.wikipedia.parser.ArticleParser;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.math3.util.Pair;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -40,12 +38,9 @@ import org.junit.Test;
  * 
  * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it created on 19/nov/2011
  */
-public class ArticleTest {
+public class ItalianArticleTest extends ArticleTest {
 	private static Article a = new Article();
 	private static ArticleParser articleParser = new ArticleParser(Language.IT);
-
-
-
 
 	@BeforeClass
 	public static void loadArticle() throws IOException {
@@ -57,12 +52,10 @@ public class ArticleTest {
 
 	@Test
 	public void sections() throws IOException {
-
 		assertTrue(a.getSections().contains("Armonium occidentale"));
 		assertTrue(a.getSections().contains("Armonium indiano"));
 		assertTrue(a.getSections().contains("Bibliografia"));
 		assertTrue(a.getSections().contains("Collegamenti esterni"));
-
 	}
 
 	@Test
@@ -84,28 +77,17 @@ public class ArticleTest {
 			}
 		}
 
-		assertThat(anchors, hasItems("strumento musicale", "Giovanni Tamburini"));
-
-
+		assertThat(anchors, hasItems("strumento musicale", "Giovanni Tamburini", "temperamento equabile",
+				                     "Stuart Isacoff", "Generi musicali"));
+		assertFalse(anchors.contains("Categoria:Aerofoni a mantice"));
+		assertFalse(anchors.contains(":Aerofoni a mantice"));
+		assertFalse(anchors.contains("Aerofoni a mantice"));
+		assertFalse(anchors.contains("Fisharmonija"));
+		assertFalse(anchors.contains("lt:Fisharmonija"));
+		assertFalse(anchors.contains(":Fisharmonija"));
+		testAnchorsInText(a);
 	}
 
-	
-	//@Test
-	//public void testInfobox() throws IOException {
-	//	Article articleWithInfobox = new Article();
-//
-	//	String text = readFileAsString("/it/xml-dump/article-with-infobox.txt");
-	//	articleParser.parse(articleWithInfobox, text);
-	//
-	//	assertTrue(articleWithInfobox.hasInfobox());
-	//	Template infobox = articleWithInfobox.getInfobox();
-	//	assertEquals(12,infobox.getSchema().size());
-	//	assertEquals("Infobox_fiume", infobox.getName());
-	//	assertEquals("Adige", infobox.get("nome"));
-	//	assertEquals("12200", infobox.get("bacino"));
-	//
-//
-	//}
 
 	@Test
 	public void table() throws IOException {
@@ -121,59 +103,45 @@ public class ArticleTest {
 
 	@Test
 	public void list() throws IOException {
-
 		String text = readFileAsString("/it/xml-dump/list.txt");
 		Article articleWithList = new Article();
 		articleParser.parse(articleWithList, text);
 		List<String> list = articleWithList.getLists().get(2);
 		assertEquals("Antropologia culturale e Antropologia dei simboli", list.get(0));
-		
 	}
 
-	//
-	// @Test
-	// public void testLists2() throws IOException {
-	//
-	// String text = readFileAsString("/list2.txt");
-	// Article a = new Article();
-	// articleParser.parse(a, text);
-	// System.out.println(a);
-	// }
+	@Test
+	public void testAnnotationsWithOtherNamespaces() throws IOException {
+		Article a = new Article();
+		String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/it/xml-dump/article_with_weird_annotations");
+		articleParser.parse(a, mediawiki);
+		Pair<List<String>, List<String>> anchorsAndUris = getAnchorsAndUris(a);
+		List<String> anchors = anchorsAndUris.getFirst();
+		List<String> uris = anchorsAndUris.getSecond();
+		assertThat(uris, hasItems("Harry_Potter", "Sōtō", "Arashiyama", "Kyoto", "Università_degli_Studi_di_Napoli_Federico_II"));
+		assert(uris.size()==7);
 
-	// @Test
-	// public void testMercedes() throws IOException {
-	//
-	// String text = readFileAsString("/mercedes.txt");
-	// Article a = new Article();
-	// articleParser = new ArticleParser(Language.EN);
-	// articleParser.parse(a, text);
-	// System.out.println(a);
-	// }
-	//
-	// @Test
-	// public void testRedirect() throws IOException {
-	//
-	// String text = readFileAsString("/redirect.txt");
-	// Article a = new Article();
-	// articleParser = new ArticleParser(Language.EN);
-	// articleParser.parse(a, text);
-	// assertTrue(a.isRedirect());
-	// System.out.println(a.getRedirect());
-	// }
+		assertFalse(uris.contains("File:Yukipon_SxH1.jpg"));
+		assertFalse(uris.contains("File:Nunz2.JPG"));
+		assertFalse(uris.contains("Nunz2.JPG"));
 
-	private static String readFileAsString(String filePath)
-			throws java.io.IOException {
-		StringBuffer fileData = new StringBuffer(1000);
-		BufferedReader reader = new BufferedReader(new InputStreamReader(
-				ArticleTest.class.getResourceAsStream(filePath), "UTF-8"));
-		char[] buf = new char[1024];
-		int numRead = 0;
-		while ((numRead = reader.read(buf)) != -1) {
-			String readData = String.valueOf(buf, 0, numRead);
-			fileData.append(readData);
-			buf = new char[1024];
-		}
-		reader.close();
-		return fileData.toString();
+		testAnchorsInText(a);
 	}
+
+	@Test
+	public void testAnnotationsInLists() throws IOException {
+		Article a = new Article();
+		String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/it/xml-dump/YUKI");
+		articleParser.parse(a, mediawiki);
+
+		Pair<List<String>, List<String>> anchorsAndUris = getAnchorsAndUris(a);
+		List<String> anchors = anchorsAndUris.getFirst();
+		List<String> uris = anchorsAndUris.getSecond();
+
+		assertThat(uris, hasItems("Honey_and_Clover", "2005", "POWERS_OF_TEN"));
+		assertThat(anchors, hasItems("Honey and Clover", "2005", "POWERS OF TEN"));
+		testAnchorsInText(a);
+	}
+
+
 }

@@ -16,6 +16,9 @@
 package it.cnr.isti.hpc.wikipedia.parser;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -40,11 +43,15 @@ public class Locale {
 	private static final String SEPARATOR = ",";
 
 	public Locale(String lang) {
+
+		InputStream inputStream = Locale.class.getResourceAsStream("/lang/locale-"
+				+ lang + ".properties");
+
 		properties = new Properties();
 		
 		try {
-			properties.load(Locale.class.getResourceAsStream("/lang/locale-"
-					+ lang + ".properties"));
+			Reader reader = new InputStreamReader(inputStream, "UTF-8");
+			properties.load(reader);
 		} catch (IOException e) {
 			logger.error("readling the locale for language {} ({})", lang,
 					e.toString());
@@ -91,6 +98,10 @@ public class Locale {
 
 	public List<String> getListIdentifiers() {
 		return getValues("list");
+	}
+
+	public List<String> getNE(){
+		return getValues("namespaces");
 	}
 
 	public List<String> getRedirectIdentifiers() {

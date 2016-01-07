@@ -26,9 +26,8 @@ public class Namespaces {
 	        "wt", "portal talk", "wikisource", "wikinews", "imdbname", "mw", "wikibooks",
 	        "wikiquote", "book_talk", "wikispecies", "portal_talk", "q", "c", "commons"};
 
-	static String[] namespacesItalian = {"categoria"};
 
-	static String[] namespaces = ArrayUtils.addAll(namespacesEnglish, namespacesItalian);
+	static String[] namespaces = ArrayUtils.addAll(namespacesEnglish);
 
 	// https://en.wikipedia.org/wiki/Help:Interlanguage_links
 	// list of iso 639-1 langs
@@ -58,8 +57,13 @@ public class Namespaces {
 	}
 
 	public static boolean isNamespace(String ne){
+		return isNamespace(ne, new HashSet<String>());
+	}
+
+	public static boolean isNamespace(String ne, Set<String> otherNE){
 		if (ne==null)
 			return false;
-		return allNamespaces.contains(ne.toLowerCase());
+		String neLowerCase = ne.toLowerCase();
+		return allNamespaces.contains(neLowerCase) || otherNE.contains(neLowerCase) ;
 	}
 }

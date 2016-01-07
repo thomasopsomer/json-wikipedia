@@ -19,10 +19,7 @@ import static org.junit.Assert.*;
 import static org.junit.matchers.JUnitMatchers.*;
 
 import it.cnr.isti.hpc.io.IOUtils;
-import it.cnr.isti.hpc.wikipedia.article.Article;
-import it.cnr.isti.hpc.wikipedia.article.Language;
-import it.cnr.isti.hpc.wikipedia.article.Link;
-import it.cnr.isti.hpc.wikipedia.article.ParagraphWithLinks;
+import it.cnr.isti.hpc.wikipedia.article.*;
 import it.cnr.isti.hpc.wikipedia.parser.ArticleParser;
 
 import java.io.IOException;
@@ -40,7 +37,7 @@ import org.junit.Test;
  * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it
  * created on 19/nov/2011
  */
-public class ArticleTest {
+public class EnglishArticleTest extends ArticleTest {
 
 	ArticleParser parser = new ArticleParser(Language.EN);
 	
@@ -50,22 +47,11 @@ public class ArticleTest {
 		Article a = new Article();
 		String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/article.txt");
 		parser.parse(a, mediawiki);
-//		assertTrue("Wrong parsed text",a.getCleanText().trim().startsWith("Albedo (), or reflection coefficient, is the diffuse reflectivity or reflecting power of a surface."));
-//		assertEquals(5, a.getCategories().size());
-//		assertEquals(7,a.getSections().size());
-//		assertEquals(74,a.getLinks().size());
 
         // first paragraph
         for(ParagraphWithLinks p:  a.getParagraphsWithLinks()){
             for(Link link: p.getLinks()){
                 String anchorInPar = p.getParagraph().substring(link.getStart(),link.getEnd() );
-
-
-                System.out.println("--------------");
-                System.out.println(anchorInPar);
-                System.out.println(link.getAnchor());
-                System.out.println(p.getParagraph());
-
                 assertEquals(anchorInPar, link.getAnchor());
 
             }
@@ -241,34 +227,5 @@ public class ArticleTest {
 
 	}
 
-
-	/*
-	* Matches the extracted anchors and spans against the text
-	* they have been extracted from.
-	* */
-	private void testAnchorsInText(Article article){
-		for(ParagraphWithLinks p:  article.getParagraphsWithLinks()){
-			for(Link link: p.getLinks()){
-				String anchorInPar = p.getParagraph().substring(link.getStart(),link.getEnd() );
-				assertEquals(anchorInPar, link.getAnchor());
-			}
-		}
-	}
-
-	private Pair<List<String>, List<String>> getAnchorsAndUris(Article a){
-
-		List<String> uris = new ArrayList<String>();
-		List<String> anchors = new ArrayList<String>();
-
-		for (ParagraphWithLinks p : a.getParagraphsWithLinks()) {
-			for(Link l:p.getLinks()){
-				uris.add(l.getId());
-				anchors.add(l.getAnchor());
-			}
-		}
-
-		return new Pair<List<String>, List<String>>(anchors, uris);
-
-	}
 
 }

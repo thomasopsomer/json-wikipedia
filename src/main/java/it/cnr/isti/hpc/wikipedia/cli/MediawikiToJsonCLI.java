@@ -125,7 +125,7 @@ public class MediawikiToJsonCLI extends AbstractCommandLineInterface {
 
 
             System.out.println("Exporting to json..");
-            ParallelJsonpediaParser.exportToJsonpedia(splitXmlFolder, output, lang);
+            ParallelJsonpediaParser.exportToJsonpedia(splitXmlFolder, output, lang, input);
         }
 
         /*
