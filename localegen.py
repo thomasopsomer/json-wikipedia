@@ -6,8 +6,6 @@ import itertools
 import pycountry
 import argparse
 
-from disambiguations import DISAMBIGUATION_CONSTANTS
-
 
 class WikipediaLocaleGenerator:
 

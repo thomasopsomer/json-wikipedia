@@ -80,10 +80,10 @@ public class ArticleParser {
             logger.warn("Text is null for article {}", article.getTitle());
         } else {
 
-			for(String disambiguationKeyword:locale.getDisambigutionIdentifiers()){
-				if(StringUtils.containsIgnoreCase(mediawiki,("{{"+disambiguationKeyword)))
-					article.setType(Type.DISAMBIGUATION);
-			}
+            for(String disambiguationKeyword:locale.getDisambigutionIdentifiers()){
+                if(StringUtils.containsIgnoreCase(mediawiki, ("{{" + disambiguationKeyword)))
+                    article.setType(Type.DISAMBIGUATION);
+            }
 
             String cleanedMediawiki = removeTemplates(mediawiki);
             ParsedPage page = parser.parse(cleanedMediawiki);
@@ -525,7 +525,6 @@ public class ArticleParser {
 			}
 			for (Template t : a.getTemplates()) {
 				if (StringUtils.equalsIgnoreCase(t.getName(), disambiguation)) {
-					System.out.println("template:" + t.getName());
 					a.setType(Type.DISAMBIGUATION);
 					return;
 
