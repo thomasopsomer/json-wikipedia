@@ -6,8 +6,6 @@ import itertools
 import pycountry
 import argparse
 
-from disambiguations import DISAMBIGUATION_CONSTANTS
-
 
 class WikipediaLocaleGenerator:
 
@@ -93,7 +91,7 @@ class WikipediaLocaleGenerator:
         all_ne = filter(lambda x: x["id"] != 0, self.metadata["query"]["namespaces"].values())
         all_ne_with_aliases = [self.get_namespace_with_aliases(ne["canonical"]) for ne in all_ne]
         # flattening the list
-        return list(itertools.chain(*all_ne_with_aliases)) 
+        return list(itertools.chain(*all_ne_with_aliases))
 
     def get_category_keywords(self):
         """
@@ -111,12 +109,13 @@ class WikipediaLocaleGenerator:
         """
         returns all disambiguation keywords by taking a look at the magicwords
         """
-        default_constants = self.get_magicword("disambiguation")
-        extended_constants = list()
-        if self.language in DISAMBIGUATION_CONSTANTS:
-            extended_constants = DISAMBIGUATION_CONSTANTS[self.language]
-        all_constants = list(set(default_constants + extended_constants))
-        return all_constants
+        disambiguation_template_uri = "https://www.wikidata.org/w/api.php?action=wbgetentities&ids=Q6148868&props=sitelinks&format=json"
+        r = requests.get(disambiguation_template_uri)
+        disambiguation_templates = r.json()
+
+        language_disambiguation_directive = disambiguation_templates["entities"]["Q6148868"]["sitelinks"]["%swiki"%self.language]["title"].split(":")[1]
+
+        return [language_disambiguation_directive]
 
 
 def main():

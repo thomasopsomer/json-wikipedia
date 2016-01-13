@@ -37,6 +37,17 @@ import org.xml.sax.SAXException;
  */
 public class WikipediaArticleReaderTest {
 
+
+	@Test
+	public void testDisambiguation() throws UnsupportedEncodingException, FileNotFoundException, IOException, SAXException {
+		URL u = this.getClass().getResource("/es/xml-dump/disambiguation.xml");
+		WikipediaArticleReader wap = new WikipediaArticleReader(u.getFile(),"/tmp/disambiguation.json.gz", Language.ES);
+		wap.start();
+		String json = IOUtils.getFileAsUTF8String("/tmp/disambiguation.json.gz");
+		Article a = Article.fromJson(json);
+		assert(a.getType().equals(Article.Type.DISAMBIGUATION));
+	}
+
 	@Test
 	public void testParsing() throws UnsupportedEncodingException, FileNotFoundException, IOException, SAXException {
 		URL u = this.getClass().getResource("/en/mercedes.xml");
