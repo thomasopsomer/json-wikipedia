@@ -38,7 +38,7 @@ public class Link {
 	public Link(String id, String anchor, int start, int end) {
 		super();
 		try {
-			this.id = java.net.URLDecoder.decode(id, "UTF-8");
+			this.id = java.net.URLDecoder.decode(id.replace("+", "%2B"), "UTF-8");
 		} catch(Exception e) {
 			this.id = id;
 		}
