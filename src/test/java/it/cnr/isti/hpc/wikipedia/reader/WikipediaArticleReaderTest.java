@@ -25,6 +25,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Test;
 import org.xml.sax.SAXException;
@@ -46,6 +48,28 @@ public class WikipediaArticleReaderTest {
 		String json = IOUtils.getFileAsUTF8String("/tmp/disambiguation.json.gz");
 		Article a = Article.fromJson(json);
 		assert(a.getType().equals(Article.Type.DISAMBIGUATION));
+
+		URL url = this.getClass().getResource("/en/disambiguation.xml");
+		WikipediaArticleReader reader = new WikipediaArticleReader(url.getFile(),"/tmp/en-disambiguation.json.gz", Language.EN);
+		reader.start();
+
+		Map<String, Article> articles = new HashMap<String, Article>();
+		String[] lines = IOUtils.getFileAsUTF8String("/tmp/en-disambiguation.json.gz").split("\n");
+
+		for(String l: lines) {
+			Article article = Article.fromJson(l);
+			articles.put(article.getTitle(), article);
+		}
+
+
+		assert(articles.get("Listed building").getType().equals(Article.Type.ARTICLE));
+		assert(articles.get("Athens").getType().equals(Article.Type.ARTICLE));
+		assert(articles.get("Test dab").getType().equals(Article.Type.DISAMBIGUATION));
+		assert(articles.get("Test hndis").getType().equals(Article.Type.DISAMBIGUATION));
+		assert(articles.get("Test disambiguation in title").getType().equals(Article.Type.ARTICLE));
+		assert(articles.get("Test (disambiguation)").getType().equals(Article.Type.DISAMBIGUATION));
+
+
 	}
 
 	@Test
