@@ -81,8 +81,10 @@ public class ArticleParser {
         } else {
 
             for(String disambiguationKeyword:locale.getDisambigutionIdentifiers()){
-                if(StringUtils.containsIgnoreCase(mediawiki, ("{{" + disambiguationKeyword)))
-                    article.setType(Type.DISAMBIGUATION);
+                if(StringUtils.containsIgnoreCase(mediawiki, ("{{" + disambiguationKeyword + "|")) || StringUtils.containsIgnoreCase(mediawiki, ("{{" + disambiguationKeyword + "}}"))) {
+					logger.info(article.getTitle() + ": Setting disambiguation because it contains " + disambiguationKeyword);
+					article.setType(Type.DISAMBIGUATION);
+				}
             }
 
             String cleanedMediawiki = removeTemplates(mediawiki);
@@ -157,7 +159,7 @@ public class ArticleParser {
 	 */
 	private void setIsList(Article article) {
 		for (String list : locale.getListIdentifiers()) {
-			if (StringUtils.startsWithIgnoreCase(article.getTitle(), list)) {
+			if (StringUtils.startsWithIgnoreCase(article.getTitle(), list + " ")) {
 				article.setType(Type.LIST);
 			}
 		}
@@ -519,15 +521,17 @@ public class ArticleParser {
 	private void setDisambiguation(Article a) {
 
 		for (String disambiguation : locale.getDisambigutionIdentifiers()) {
-			if (StringUtils.containsIgnoreCase(a.getTitle(), disambiguation)) {
+			if (StringUtils.containsIgnoreCase(a.getTitle(), "(" + disambiguation + ")")) {
+				logger.info(a.getTitle() + ": Disambiguation was set because " + disambiguation + " is in the title");
 				a.setType(Type.DISAMBIGUATION);
 				return;
 			}
 			for (Template t : a.getTemplates()) {
+
 				if (StringUtils.equalsIgnoreCase(t.getName(), disambiguation)) {
+					logger.info(a.getTitle() + ": Disambiguation was set because " + disambiguation + " template is present");
 					a.setType(Type.DISAMBIGUATION);
 					return;
-
 				}
 			}
 
