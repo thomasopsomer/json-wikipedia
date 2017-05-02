@@ -108,6 +108,9 @@ public class MediawikiToJsonCLI extends AbstractCommandLineInterface {
         String output = cli.getOutput();
         String lang = cli.getParam("lang");
         String action = cli.getParam("action");
+        if(lang.equals("simple")) {
+            lang = "en";
+        }
 
         /*
         * Splits a big Wikipedia XML Dump into
