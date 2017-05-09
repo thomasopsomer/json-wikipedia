@@ -7,9 +7,9 @@ cache:
   - $HOME/.m2
 
 notifications:
-    email: false
-    hipchat:
-        rooms:
-            secure: HAIO6qjP1Os4yCduLwRfNrXP9K5v3hOpbXs/HOcoPzh0WACTNZUBJx8GPUWlcUJlzaxkUG05QC91dTn2kTyNteFE9xayKw347i7xywcYDttJdEL8M0agIkZowyrOfmiG+wFv/vCayZpf0T/MPYE1gDvFeP4yuP7CU0pdy1j0SRUkHvcpoXcx1OjbW7kMbiO1WedhzGZwrLWabw8UmNybvoyVSZmtBd4acRuOfzOfbynWoWL/9HD9jUoeCIbQeXWFxXGnQb22QpNWRYu7ZMH1ppkE/lI5zJtqZS5BjfEfK3tql4WaL72r4xO4uHkqi0xjUlP0iyQi4WW9G1PGFz6GmZSCrr04eyRQovhEaQcoces4+Q+uT/3pHplT12kE8y5wGTwYJlCfIRjGYN/uqfT6EEdl+8E4ZCA/o3t7rEHrRqxD98Pt+Q/y+GJxtYmGr4n+HAGCfa3BE4uij3N7EisO6mJ7NtMp5g8UGEvnqFV/eV46Urhoih4ILPhTkMKvX7PRxnSvrqE7toY9PXC5Ufkmt5TU7RmTNRT1cnH28MqlpeywWKNkNr8I6chfUCDNeEHT6Ckj00/l+CbQfNtQWQt7XApcCui0cxvTuZSrAKVzNTrWKcN/tMP5XyJ6t/bxBZAFDV4YHzK8fwzNHjz71sLGYukdvls4yLsEW74JqiQZ6Oo=
-        template:
-            - 'Build #%{build_number} (%{commit}) of %{repository_name}/%{branch} %{result} (%{duration}) %{build_url}'
+  email: false
+  hipchat:
+    rooms:
+      secure: Msnk36RUmuAj4U2wJGTcPV4OdckonlrELCHNu+ShFlQntvQkc05fE7ON8JueIL9iOtOFqciTW2mveZh1qLgxD6BKnF/Opn8feMDMifwDCJJZcFXWQK5e7MNUsOgIDLWmGKZHgZePXgslUGJGStOYzPfA4J3qWPCXuVYUtvIhV5Ne995ZXqXyWbwPGaOknda0gDFQW0+/Iqb0CjS0SnYk0QRIttWjawImSIZJmYFAzVFOAaOfVAXTs20Fpz6bd/bYH7E2F7l/ws4aOqDd0R3Ez0vPc7EFdw6AbgbAa3wt+fC9e16Ea2Z00dVlM9xTZaRDxJh5HhvmImDgumZxurUHKOGtUO5OZ2ydcgjmotxe6U5uY3QYfcATOT+j7VMoxQrTViNiQTFIA20B9HpR1+Z372FivbWqerldxQkutHtUlzGJCGBroFJfBVJg9PhSAPst3zdynzsGncXOmlmT+Nc8dkF4FHj7xzAqgx+rI1B5VNNWOuo6dFccMAPy56r+yNBAfpEhvMqeqkvzTLws2lwav5H2eG+8hAat9jOX5NaKMWtpDnhcARewtql0cb3LUZ6SccQNEp1r9GvMRhZs76jv81zVKMGSy0QTLvgn591CfkF9BswK3F0fiEnCk1Q20as7VwkYRQDOT1Mz9Hwxh+ckippTNMMuoU/Z5GFcYEnIcvE=
+    template:
+    - 'Build #%{build_number} (%{commit}) of %{repository_name}/%{branch} %{result} (%{duration}) %{build_url}'
