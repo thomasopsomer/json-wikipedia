@@ -33,9 +33,9 @@
             <scope> test </scope>
         </dependency>
         <dependency>
-            <groupId>com.github.idio</groupId>
-            <artifactId>bliki</artifactId>
-            <version>3.1.1</version>
+            <groupId>info.bliki.wiki</groupId>
+            <artifactId>bliki-core</artifactId>
+            <version>3.1.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <artifactId>hpc-utils</artifactId>
@@ -169,6 +169,10 @@
         <repository>
             <id>dropbox</id>
             <url>https://dl.dropboxusercontent.com/u/4663256/mvn-repository/</url>
+        </repository>
+        <repository>
+            <id>sonatype-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </repository>
     </repositories>
     <build>

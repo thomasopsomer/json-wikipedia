@@ -36,6 +36,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
+import info.bliki.wiki.namespaces.INamespace.NamespaceCode;
+
 /**
  * A reader that converts a Wikipedia dump in its json dump. The json dump will
  * contain all the article in the XML dump, one article per line. Each line will
@@ -154,22 +156,26 @@ public class WikipediaArticleReader {
 				return;
 			}
 
-			if(page.isHelp()){
+			Boolean isHelp = integerNamespace.equals(NamespaceCode.HELP_NAMESPACE_KEY.code);
+			if(isHelp){
 				type = Type.HELP;
 				return;
 			}
 
-			if(page.isHelpTalk()){
+			Boolean isHelpTalk = integerNamespace.equals(NamespaceCode.HELP_TALK_NAMESPACE_KEY.code);
+			if(isHelpTalk){
 				type = Type.HELPTALK;
 				return;
 			}
 
-			if(page.isUser()){
+			Boolean isUser = integerNamespace.equals(NamespaceCode.USER_NAMESPACE_KEY.code);
+			if(isUser){
 				type = Type.USER;
 				return;
 			}
 
-			if(page.isUserTalk()){
+			Boolean isUserTalk = integerNamespace.equals(NamespaceCode.USER_TALK_NAMESPACE_KEY.code);
+			if(isUserTalk){
 				type = Type.USERTALK;
 				return;
 			}
