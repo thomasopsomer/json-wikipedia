@@ -40,7 +40,7 @@
         <dependency>
             <groupId>com.github.diegoceccarelli</groupId>
             <artifactId>hpc-utils</artifactId>
-            <version>master-SNAPSHOT</version>
+            <version>-b47808d4d9-1</version>
         </dependency>
         <dependency>
             <groupId>xerces</groupId>
