@@ -156,26 +156,19 @@ public class WikipediaArticleReader {
 				return;
 			}
 
-			Boolean isHelp = integerNamespace.equals(NamespaceCode.HELP_NAMESPACE_KEY.code);
-			if(isHelp){
+			if(integerNamespace.equals(NamespaceCode.HELP_NAMESPACE_KEY.code)){
 				type = Type.HELP;
 				return;
 			}
-
-			Boolean isHelpTalk = integerNamespace.equals(NamespaceCode.HELP_TALK_NAMESPACE_KEY.code);
-			if(isHelpTalk){
+			if(integerNamespace.equals(NamespaceCode.HELP_TALK_NAMESPACE_KEY.code)){
 				type = Type.HELPTALK;
 				return;
 			}
-
-			Boolean isUser = integerNamespace.equals(NamespaceCode.USER_NAMESPACE_KEY.code);
-			if(isUser){
+			if(integerNamespace.equals(NamespaceCode.USER_NAMESPACE_KEY.code)){
 				type = Type.USER;
 				return;
 			}
-
-			Boolean isUserTalk = integerNamespace.equals(NamespaceCode.USER_TALK_NAMESPACE_KEY.code);
-			if(isUserTalk){
+			if(integerNamespace.equals(NamespaceCode.USER_TALK_NAMESPACE_KEY.code)){
 				type = Type.USERTALK;
 				return;
 			}
