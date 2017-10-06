@@ -38,9 +38,9 @@
             <version>3.1.1-SNAPSHOT</version>
         </dependency>
         <dependency>
+            <groupId>com.github.diegoceccarelli</groupId>
             <artifactId>hpc-utils</artifactId>
-            <groupId>it.cnr.isti.hpc</groupId>
-            <version>0.0.7</version>
+            <version>master-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>xerces</groupId>
