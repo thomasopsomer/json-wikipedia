@@ -11,12 +11,7 @@
 package de.tudarmstadt.ukp.wikipedia.parser.mediawiki;
 
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-import java.util.Stack;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,6 +21,8 @@ import org.apache.commons.logging.LogFactory;
 import de.tudarmstadt.ukp.wikipedia.parser.*;
 import de.tudarmstadt.ukp.wikipedia.parser.Content.FormatType;
 import org.apache.commons.math3.util.Pair;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -394,6 +391,9 @@ public class ModularParser implements MediaWikiParser,
 
 		// Parsing Links and Images.
 		parseImagesAndInternalLinks(sm, cepp.linkSpans, cepp.links);
+
+		// Parsing Inline Referencess.
+		parseInlineReferences(sm, cepp.refs);
 
 		// Creating a list of Line Spans to work with lines in the following
 		// functions
@@ -1589,6 +1589,32 @@ public class ModularParser implements MediaWikiParser,
 	}
 
 
+	/**
+	 * Locate inline references and add to list, optionally replace them with whitespace, or remove.
+	 */
+	private void parseInlineReferences(SpanManager sm, List<Link> refs)
+	{
+		String refsPatternString = "(?i)(<ref.*?>)(.+?)(</ref>)";
+		Pattern refsPattern = Pattern.compile(refsPatternString);
+		Matcher m = refsPattern.matcher(sm.toString());
+
+		while(m.find()) {
+			// Replace with whitespace.
+			int start = m.start();
+			int end = m.end();
+			int whitespaceLength = end - start;
+			String whitespace = String.join("", Collections.nCopies(whitespaceLength, " "));
+			Span posSpan = new Span(m.start(), m.end());
+			sm.replace(start, end, whitespace);
+
+			// Save link inside refs
+			String linkTarget = m.group(0);
+			Link.type linkType =  Link.type.UNKNOWN;
+			Link ref = new Link(null, posSpan, linkTarget, linkType, null);
+			refs.add(ref);
+		}
+	}
+
 
 	/**
 	 * There is not much differences between links an images, so they are parsed
@@ -1873,6 +1899,7 @@ public class ModularParser implements MediaWikiParser,
 		ContentElementParsingParameters cepp = new ContentElementParsingParameters();
 
 		parseImagesAndInternalLinks(sm, cepp.linkSpans, cepp.links);
+		parseInlineReferences(sm, cepp.refs);
 
 		LinkedList<Span> lineSpans = new LinkedList<Span>();
 		getLineSpans(sm, lineSpans);
@@ -2123,6 +2150,7 @@ public class ModularParser implements MediaWikiParser,
 		result.setFormatSpans(FormatType.NOWIKI, localNoWikiSpans);
 
 		result.setLinks(sortLinks(localLinks));
+		result.setRefs(cepp.refs);
 		result.setTemplates(sortTemplates(localTemplates));
 
 		return result;
@@ -2248,6 +2276,7 @@ public class ModularParser implements MediaWikiParser,
 		List<String> noWikiStrings;
 		List<Span> linkSpans;
 		List<Link> links;
+		List<Link> refs;
 		List<Span> templateSpans;
 		List<ResolvedTemplate> templates;
 		List<Span> tagSpans;
@@ -2260,6 +2289,7 @@ public class ModularParser implements MediaWikiParser,
 			noWikiStrings = new ArrayList<String>();
 			linkSpans = new ArrayList<Span>();
 			links = new ArrayList<Link>();
+			refs = new ArrayList<Link>();
 			templateSpans = new ArrayList<Span>();
 			templates = new ArrayList<ResolvedTemplate>();
 			tagSpans = new ArrayList<Span>();

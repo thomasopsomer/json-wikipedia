@@ -27,6 +27,7 @@ public class ContentElement extends ParsedPageObject implements Content {
 	private List<Span> boldSpans;
 	private List<Span> italicSpans;
 	private List<Link> links;
+	private List<Link> refs;
 	private List<Template> templates;
 	private List<Span> tags;
 	private List<Span> mathSpans;
@@ -35,6 +36,7 @@ public class ContentElement extends ParsedPageObject implements Content {
 	public ContentElement(){
 		text = "";
 		links = new ArrayList<Link>();
+		refs = new ArrayList<Link>();
 		templates = new ArrayList<Template>();
 		boldSpans = new ArrayList<Span>();
 		italicSpans = new ArrayList<Span>();
@@ -197,7 +199,14 @@ public class ContentElement extends ParsedPageObject implements Content {
 	public List<Link> getLinks(){
 		return links;
 	}
-	
+
+	/**
+	 * Look at getRefs() for Details...
+	 */
+	public void setRefs(List<Link> refs){
+		this.refs = refs;
+	}
+
 	/**
 	 * Returns a List of the Links of this ContentElement of the Specified Link.type t
 	 */
@@ -224,7 +233,7 @@ public class ContentElement extends ParsedPageObject implements Content {
 	public List<Link> getLinks(  Link.type t, int begin, int end){
 		return getLinks( t, new Span(begin, end) );
 	}
-	
+
 	/**
 	 * Look at getTemplates for Details...
 	 */
