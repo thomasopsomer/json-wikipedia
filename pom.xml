@@ -72,7 +72,11 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.1</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.github.dkpro</groupId>
+            <artifactId>dkpro-jwpl</artifactId>
+            <version>de.tudarmstadt.ukp.wikipedia-1.1.0</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_2.11</artifactId>

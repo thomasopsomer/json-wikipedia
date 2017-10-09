@@ -20,9 +20,9 @@ import it.cnr.isti.hpc.wikipedia.article.*;
 import it.cnr.isti.hpc.wikipedia.article.Article.Type;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import it.cnr.isti.hpc.wikipedia.article.Link;
 import it.cnr.isti.hpc.wikipedia.article.Table;
@@ -31,8 +31,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import it.cnr.isti.hpc.wikipedia.parser.Namespaces;
 import de.tudarmstadt.ukp.wikipedia.parser.mediawiki.MediaWikiParser;
+
 
 /**
  * Generates a Mediawiki parser given a language, (it will expect to find a
@@ -59,6 +60,7 @@ public class ArticleParser {
 
 	private MediaWikiParser parser;
 	private Locale locale;
+	private Set<String> namespaces = new HashSet<String>();
 
 	public ArticleParser(String lang) {
 		this.lang = lang;
@@ -333,11 +335,14 @@ public class ArticleParser {
 		List<Link> externalLinks = new ArrayList<Link>(10);
 
 		for (de.tudarmstadt.ukp.wikipedia.parser.Link t : links) {
-			if (t.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.INTERNAL) {
+			if (t.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.UNKNOWN) {
+			    Link cleanedLink = cleanUnknonwnLink(t);
+				if(!cleanedLink.getId().equals(""))
+					internalLinks.add(cleanedLink);
+			} else  if (t.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.INTERNAL) {
 				if(!t.getTarget().equals(""))
 					internalLinks.add(new Link(t.getTarget(), t.getText(), t.getPos().getStart(), t.getPos().getEnd()));
-			}
-			if (t.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.EXTERNAL) {
+			} else if (t.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.EXTERNAL) {
 				externalLinks.add(new Link(t.getTarget(), t.getText(),t.getPos().getStart(), t.getPos().getEnd()));
 			}
 		}
@@ -535,6 +540,99 @@ public class ArticleParser {
 				}
 			}
 
+		}
+	}
+
+	/*
+	 * returns a pair <Namespace, TopicId>
+	 */
+	public static org.apache.commons.math3.util.Pair<String, String> extractNETopic(String target)
+	{
+		int pos = target.indexOf(':');
+		if (pos == -1)
+		{
+			// Doesnt have any NE
+			// i.e: Michael Jackson
+			return new org.apache.commons.math3.util.Pair<String,String>(null, target);
+		}
+		else
+		{
+			// with NE i.e:
+			//  cite:Michael Jackson -> ne: cite, topic: Michael Jacson
+			// ::cite:Michael Jackson -> ne: cite, topic: Michael Jacson
+			// :en:h20:A -> ne: en, Topic: h20:A
+			Pattern patternNE = Pattern.compile(":*([^:]+):(.+)");
+			Matcher m = patternNE.matcher(target);
+			if(m.find()){
+				String ne = m.group(1);
+				String topic = m.group(2);
+				return new org.apache.commons.math3.util.Pair<String,String>(ne, topic);
+
+			}else{
+				// With a colon but without NE
+				// i.e: :Michael Jackson
+				// i.e: ::::Michael Jackson
+				Pattern patternNoNameSpace = Pattern.compile(":*([^:]+.*)");
+				Matcher withoutNEMatches = patternNoNameSpace.matcher(target);
+				if(withoutNEMatches.find()){
+					String topic = withoutNEMatches.group(1);
+					return new org.apache.commons.math3.util.Pair<String, String>(null, topic);
+				}
+				return new org.apache.commons.math3.util.Pair<String,String>(null, target);
+			}
+		}
+	}
+
+	public static org.apache.commons.math3.util.Pair<String, String> getLinkNameSpace(String target)
+	{
+		return getLinkNameSpace(target, new HashSet<String>());
+	}
+
+	public static org.apache.commons.math3.util.Pair<String, String> getLinkNameSpace(String target, Set<String> otherNe)
+	{
+		org.apache.commons.math3.util.Pair<String, String> NeTopic = extractNETopic(target);
+
+		String extractedNe = NeTopic.getFirst();
+		String extractedTopicId = NeTopic.getSecond();
+
+		// No name space
+		// i.e: Michael Jackson -> ne: null, Topic:Michael Jackson
+		if(extractedNe==null){
+			return new org.apache.commons.math3.util.Pair<String,String>(null, extractedTopicId);
+		}
+
+		// If it has a namespace that matches our list then don't change the Topic Id
+		// Other methods afterwards like language cleaning depends on this
+		// i.e: en:michael jackson  -> ne: ne, topic: en:Michael Jackson
+		//      cite:aaa -> -> ne: cite, Topic: cite:aaa
+		if (Namespaces.isNamespace(extractedNe, otherNe) | Namespaces.isLanguage(extractedNe))
+		{
+			String topic = extractedNe + ":" + extractedTopicId;
+			return new org.apache.commons.math3.util.Pair<String, String>(extractedNe.toLowerCase(), topic);
+		}
+
+		// If the namespace does not match any in our list
+		// it means the ne is part of the Topic ID.
+		// i.e: h20:Japanese Band -> ne: null, topic: h20:Japanese Band
+		String topic = extractedNe + ":" + extractedTopicId;
+		return new org.apache.commons.math3.util.Pair<String, String>(null, topic);
+	}
+
+	/**
+	 *
+	 */
+	private Link cleanUnknonwnLink(de.tudarmstadt.ukp.wikipedia.parser.Link link)
+	{
+		List<String> parameters;
+		org.apache.commons.math3.util.Pair<String, String> pairNETopic = getLinkNameSpace(link.getTarget(), this.namespaces);
+		String namespace = pairNETopic.getFirst();
+		String newTarget =  pairNETopic.getSecond();
+		if(namespace == null) {
+			newTarget = StringUtils.stripStart(newTarget, ":");
+			String newText = StringUtils.stripStart(link.getText(), ":");
+			return new Link(newTarget, newText, link.getPos().getStart(), link.getPos().getEnd());
+		} else {
+			return new Link("", "", link.getPos().getStart(), link.getPos().getEnd());
 		}
 	}
 

@@ -3,7 +3,6 @@ package de.tudarmstadt.ukp.wikipedia.parser;
 import de.tudarmstadt.ukp.wikipedia.api.WikiConstants;
 import de.tudarmstadt.ukp.wikipedia.parser.mediawiki.MediaWikiParser;
 import de.tudarmstadt.ukp.wikipedia.parser.mediawiki.MediaWikiParserFactory;
-import de.tudarmstadt.ukp.wikipedia.parser.mediawiki.ModularParser;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
@@ -25,13 +24,16 @@ public class ParserTest {
         String title = "Wikipedia API";
 
         String LF = "\n";
-        String text = "India collided with Asia {{Ma|55|45}} creating the Himalayas; Arabia collided with Eurasia, " +
-                "closing the [[Tethys ocean]] and creating the Zagros Mountains, " +
-                "around {{Ma|35}}.<ref name=Allen2008>{{cite doi|10.1016/j.palaeo.2008.04.021 }}</ref>\n" +
-                "<gallery>\n" +
-                "|35  million years ago\n" +
-                "|20  million years ago\n" +
-                "</gallery>";
+        String text = "{{Redirect2|Anarchist|Anarchists|the fictional character|Anarchist (comics)|other uses|Anarchists " +
+				"(disambiguation)}} {{pp-move-indef}} {{Use British English|date=January 2014}} {{Anarchism sidebar}} {{Basic "  +
+				"forms of government}} '''Anarchism''' is a [[political philosophy]] that advocates [[self-governance|self-governed]] " +
+				"societies based on voluntary institutions. These are often described as [[stateless society|stateless societies]],<ref>" +
+				"ANARCHISM, a social philosophy that rejects authoritarian government and maintains that voluntary institutions are best" +
+				"suited to express man's natural social tendencies.\" George Woodcock. \"Anarchism\" at The Encyclopedia of Philosophy</ref><ref>\"In " +
+				"a society developed [[Wikipedia:::::en:Some Anchor/Wikipedia_links#Categories|Categories]] on these lines, the voluntary associations which already now begin to cover all the fields of human activity would" +
+				" take a still greater extension so as to substitute themselves for the state in all its functions.\" [http://www.theanarchistlibrary.org/HTML/" +
+				"// Petr_Kropotkin___Anarchism__from_the_Encyclopaedia_Britannica.html Peter Kropotkin. \"Anarchism\" from the Encyclopædia Britannica]</ref><ref>\"Anarchism.\""+
+				"The Shorter Routledge Encyclopedia of Philosophy. 2005. p. 14 \"Anarchism is the view that a society without the state, or government, is both possible and ";
 
         MediaWikiParserFactory pf = new MediaWikiParserFactory(WikiConstants.Language.english);
         MediaWikiParser parser = pf.createParser();
