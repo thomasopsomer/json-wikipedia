@@ -336,10 +336,10 @@ public class ArticleParser {
 
 		for (de.tudarmstadt.ukp.wikipedia.parser.Link t : links) {
 			if (t.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.UNKNOWN) {
-			    Link cleanedLink = cleanUnknonwnLink(t);
-				if(!cleanedLink.getId().equals(""))
-					internalLinks.add(cleanedLink);
-			} else  if (t.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.INTERNAL) {
+			    Link newLink = handleUnknonwnLink(t);
+				if(!newLink.getId().equals(""))
+					internalLinks.add(newLink);
+			} else if (t.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.INTERNAL) {
 				if(!t.getTarget().equals(""))
 					internalLinks.add(new Link(t.getTarget(), t.getText(), t.getPos().getStart(), t.getPos().getEnd()));
 			} else if (t.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.EXTERNAL) {
@@ -583,6 +583,11 @@ public class ArticleParser {
 		}
 	}
 
+	private static String encodeWikistyle(String str)
+	{
+		return str.replace(' ', '_');
+	}
+
 	public static org.apache.commons.math3.util.Pair<String, String> getLinkNameSpace(String target)
 	{
 		return getLinkNameSpace(target, new HashSet<String>());
@@ -621,16 +626,17 @@ public class ArticleParser {
 	/**
 	 *
 	 */
-	private Link cleanUnknonwnLink(de.tudarmstadt.ukp.wikipedia.parser.Link link)
+	private Link handleUnknonwnLink(de.tudarmstadt.ukp.wikipedia.parser.Link link)
 	{
-		List<String> parameters;
 		org.apache.commons.math3.util.Pair<String, String> pairNETopic = getLinkNameSpace(link.getTarget(), this.namespaces);
 		String namespace = pairNETopic.getFirst();
 		String newTarget =  pairNETopic.getSecond();
 		if(namespace == null) {
 			newTarget = StringUtils.stripStart(newTarget, ":");
+			newTarget = encodeWikistyle(newTarget);
 			String newText = StringUtils.stripStart(link.getText(), ":");
-			return new Link(newTarget, newText, link.getPos().getStart(), link.getPos().getEnd());
+			int offset = link.getText().length() - newText.length();
+			return new Link(newTarget, newText, link.getPos().getStart() + offset, link.getPos().getEnd());
 		} else {
 			return new Link("", "", link.getPos().getStart(), link.getPos().getEnd());
 		}
