@@ -164,6 +164,10 @@ public class Link {
 		this.end = end;
 	}
 
+	public Link.type getType() {
+		return this.t;
+	}
+
 	public enum type {
 		EXTERNAL,
 		INTERNAL,

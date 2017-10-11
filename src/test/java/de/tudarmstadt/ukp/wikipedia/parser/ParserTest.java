@@ -50,7 +50,7 @@ public class ParserTest {
     }
 
     public boolean findLinkInList(Link l, Collection<Link> list){
-         for(Link currentLink:list){
+         for(Link currentLink:list) {
              if (l.equals(currentLink)) return true;
          }
         return false;
@@ -145,62 +145,26 @@ public class ParserTest {
 		return null;
 	}
 
-//    @Test
-//    public void testExtractingLinksWithColons(){
-//
-//		// Regular paragraphs
-//        String text ="'''Hayami''' Rena Hayami, [[Image:a.jgp]] images and file namespaces [[File:a.jpg]] " +
-//				"''[[Category: Evolution]]'' [[Category:Jackson musical family]].\n \n Kohinata Hayami, " +
-//				"[[H2O: Footprints in the Sand]] character. [[Cite:AAA]] [[Noriko Hayami]] (born 1959), Japanese actress.";
-//        MediaWikiParserFactory pf = new MediaWikiParserFactory(WikiConstants.Language.english);
-//        MediaWikiParser parser = pf.createParser();
-//
-//        ParsedPage pp = parser.parse(text);
-//
-//        List<String> uris = getUrisInParagraphs(pp);
-//        assertThat(uris, hasItems("H2O:_Footprints_in_the_Sand", "Noriko_Hayami"));
-//
-//        // Making sure Links with ":" are considered Internals
-//        Link h2OAnnotation = getLink(pp, "H2O:_Footprints_in_the_Sand");
-//        assertEquals(h2OAnnotation.getType(), Link.type.INTERNAL);
-//        assertEquals(getLink(pp, "Cite:AAA").getType(), Link.type.INTERNAL);
-//
-//        testAnchorsInText(pp);
-//    }
-//
-//	@Test
-//	public void testExtractingLinksOtherLang(){
-//
-//		String text = "* La Douceur de croire, pièce en trois actes, Théâtre Français, 8 July 1899\n" +
-//				"\n" +
-//				"[[:France]]In collaboration with [[:fr:André Delavigne]] " +
-//				"* Blakson père [[::::::Potato|Pommes]] et fils,[[fr:Something]] comédie en quatre actes, Théâtre de l'Odéon\n" +
-//				"* Les petites  marmites, comédie en trois actes, Théâtre du Gymnase\n" +
-//				"[[cite:Gundam]] * Voilà Monsieur !, comédie en un acte, Théâtre du Gymnase";
-//
-//		MediaWikiParserFactory pf = new MediaWikiParserFactory(WikiConstants.Language.english);
-//		MediaWikiParser parser = pf.createParser();
-//
-//		ParsedPage pp = parser.parse(text);
-//
-//		List<String> uris = getUrisInParagraphs(pp);
-//		assertFalse(uris.contains("André_Delavigne"));
-//		assertFalse(uris.contains("Something"));
-//		assertThat(uris, hasItems("France", "Potato", "cite:Gundam"));
-//		assert(uris.size()==3);
-//
-//		// Making sure Links with ":" are considered Internals
-//		Link andreAnnotation = getLink(pp, "France");
-//		assertEquals(andreAnnotation.getType(), Link.type.INTERNAL);
-//
-//		Link potato = getLink(pp, "Potato");
-//		assertEquals(potato.getType(), Link.type.INTERNAL);
-//		assertEquals(potato.getText(), "Pommes");
-//
-//		testAnchorsInText(pp);
-//
-//	}
+    @Test
+    public void testExtractingLinksWithColons(){
 
+		// Regular paragraphs
+        String text ="'''Hayami''' Rena Hayami, [[Image:a.jgp]] images and file namespaces [[File:a.jpg]] " +
+				"''[[Category: Evolution]]'' [[Category:Jackson musical family]].\n \n Kohinata Hayami, " +
+				"[[H2O: Footprints in the Sand]] character. [[Cite:AAA]] [[Noriko Hayami]] (born 1959), Japanese actress.";
+        MediaWikiParserFactory pf = new MediaWikiParserFactory(WikiConstants.Language.english);
+        MediaWikiParser parser = pf.createParser();
 
+        ParsedPage pp = parser.parse(text);
 
+        List<String> uris = getUrisInParagraphs(pp);
+        assertThat(uris, hasItems("H2O:_Footprints_in_the_Sand", "Noriko_Hayami"));
+
+        // Making sure Links with ":" are considered Internals
+        Link h2OAnnotation = getLink(pp, "H2O:_Footprints_in_the_Sand");
+        assertEquals(h2OAnnotation.getType(), Link.type.UNKNOWN);
+        assertEquals(getLink(pp, "Cite:AAA").getType(), Link.type.UNKNOWN);
+
+        testAnchorsInText(pp);
+    }
 }
