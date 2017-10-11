@@ -16,14 +16,9 @@
 package it.cnr.isti.hpc.wikipedia.parser;
 
 import de.tudarmstadt.ukp.wikipedia.parser.*;
+import de.tudarmstadt.ukp.wikipedia.parser.mediawiki.MediaWikiParser;
 import it.cnr.isti.hpc.wikipedia.article.*;
 import it.cnr.isti.hpc.wikipedia.article.Article.Type;
-
-import java.lang.reflect.Array;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import it.cnr.isti.hpc.wikipedia.article.Link;
 import it.cnr.isti.hpc.wikipedia.article.Table;
 import it.cnr.isti.hpc.wikipedia.article.Template;
@@ -31,8 +26,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import it.cnr.isti.hpc.wikipedia.parser.Namespaces;
-import de.tudarmstadt.ukp.wikipedia.parser.mediawiki.MediaWikiParser;
+
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -56,10 +53,10 @@ public class ArticleParser {
 	private String lang = Language.EN;
 
 	static int shortDescriptionLength = 500;
-	private List<String> redirects;
+	private final List<String> redirects;
 
-	private MediaWikiParser parser;
-	private Locale locale;
+	private final MediaWikiParser parser;
+	private final Locale locale;
 	private Set<String> namespaces = new HashSet<String>();
 
 	public ArticleParser(String lang) {
@@ -90,7 +87,7 @@ public class ArticleParser {
             }
 
             String cleanedMediawiki = removeTemplates(mediawiki);
-            ParsedPage page = parser.parse(cleanedMediawiki);
+            final ParsedPage page = parser.parse(cleanedMediawiki);
             setRedirect(article, cleanedMediawiki);
 
             parse(article, page);
@@ -105,7 +102,6 @@ public class ArticleParser {
 			logger.warn("page is null for article {}", article.getTitle());
 		} else {
 			setParagraphs(article, page);
-			// setShortDescription(article);
 			setTemplates(article, page);
 			setLinks(article, page);
 			setCategories(article, page);
@@ -119,27 +115,6 @@ public class ArticleParser {
 		setDisambiguation(article);
 		setIsList(article);
 	}
-
-	// /**
-	// * @param article
-	// */
-	// private void setShortDescription(Article article) {
-	// StringBuilder sb = new StringBuilder();
-	// for (String paragraph : article.getParagraphs()) {
-	// paragraph = removeTemplates(paragraph);
-	// sb.append(paragraph);
-	// if (sb.length() > shortDescriptionLength) {
-	// break;
-	// }
-	// }
-	// if (sb.length() > shortDescriptionLength) {
-	// sb.setLength(shortDescriptionLength);
-	// int pos = sb.lastIndexOf(" ");
-	// sb.setLength(pos);
-	// }
-	// article.setShortDescription(sb.toString());
-	//
-	// }
 
 	 private final static String templatePattern = "TEMPLATE\\[[^]]+\\]";
 
@@ -329,30 +304,35 @@ public class ArticleParser {
 
 	}
 
-    private Pair<List<Link>, List<Link>> extractLinks(List<de.tudarmstadt.ukp.wikipedia.parser.Link> links){
+	private Pair<List<Link>, List<Link>> extractLinks(List<de.tudarmstadt.ukp.wikipedia.parser.Link> links) {
 
 		List<Link> internalLinks = new ArrayList<Link>(10);
 		List<Link> externalLinks = new ArrayList<Link>(10);
 
 		for (de.tudarmstadt.ukp.wikipedia.parser.Link t : links) {
-			if (t.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.UNKNOWN) {
-			    Link newLink = handleUnknonwnLink(t);
-				if(!newLink.getId().equals(""))
+
+			de.tudarmstadt.ukp.wikipedia.parser.Link.type linkType = t.getType();
+			String anchor = t.getText();
+			String linkTarget = t.getTarget();
+			Boolean validLink = validateLink(linkType, linkTarget);
+			Link newLink = handleUnknonwnLink(t);
+			if (validLink && !newLink.getId().equals("")) {
+				if (linkType == de.tudarmstadt.ukp.wikipedia.parser.Link.type.UNKNOWN) {
 					internalLinks.add(newLink);
-			} else if (t.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.INTERNAL) {
-				if(!t.getTarget().equals(""))
-					internalLinks.add(new Link(t.getTarget(), t.getText(), t.getPos().getStart(), t.getPos().getEnd()));
-			} else if (t.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.EXTERNAL) {
-				externalLinks.add(new Link(t.getTarget(), t.getText(),t.getPos().getStart(), t.getPos().getEnd()));
+				} else if (linkType == de.tudarmstadt.ukp.wikipedia.parser.Link.type.INTERNAL) {
+					internalLinks.add(new Link(linkTarget, anchor, t.getPos().getStart(), t.getPos().getEnd()));
+				} else if (linkType == de.tudarmstadt.ukp.wikipedia.parser.Link.type.EXTERNAL) {
+					externalLinks.add(new Link(t.getTarget(), t.getText(), t.getPos().getStart(), t.getPos().getEnd()));
+				}
 			}
 		}
 
 		return Pair.of(internalLinks, externalLinks);
-    }
+	}
 
 
 	private void setLinks(Article article, ParsedPage page) {
-		Pair<List<Link>,List<Link>> extractedLinks = extractLinks(page.getLinks());
+		Pair<List<Link>, List<Link>> extractedLinks = extractLinks(page.getLinks());
 
 		List<Link> links = extractedLinks.getLeft();
 		List<Link> elinks = extractedLinks.getRight();
@@ -626,6 +606,19 @@ public class ArticleParser {
 	/**
 	 *
 	 */
+
+	private Boolean validateLink(de.tudarmstadt.ukp.wikipedia.parser.Link.type linkType, String linkTarget)
+	{
+		if (linkTarget.isEmpty()) {
+			return false;
+		} else if (linkTarget.contains(":") && linkType == de.tudarmstadt.ukp.wikipedia.parser.Link.type.UNKNOWN) {
+			return false;
+		} else {
+			return true;
+		}
+
+	}
+
 	private Link handleUnknonwnLink(de.tudarmstadt.ukp.wikipedia.parser.Link link)
 	{
 		org.apache.commons.math3.util.Pair<String, String> pairNETopic = getLinkNameSpace(link.getTarget(), this.namespaces);

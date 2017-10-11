@@ -81,10 +81,12 @@ public class ParserTest {
         testPar = pp.getSections().get(0).getParagraphs().get(0);
 //        System.out.println(testPar.getLinks());
 
-        assert(this.findLinkInList(new Link(testPar, new Span(8, 12), "GP16",  Link.type.INTERNAL, new ArrayList<String>()), testPar.getLinks()));
-        assert(this.findLinkInList(new Link(testPar, new Span(45, 62), "Dillwyn,_Virginia",  Link.type.INTERNAL, new ArrayList<String>()), testPar.getLinks()));
-        assert(this.findLinkInList(new Link(testPar, new Span(312, 338), "Shenandoah_Valley_Railroad_(short-line)",  Link.type.INTERNAL, new ArrayList<String>()), testPar.getLinks()));
-        assert(this.findLinkInList(new Link(testPar, new Span(428, 437), "Spiderman",  Link.type.INTERNAL, new ArrayList<String>()), testPar.getLinks()));
+        List<Link> links = testPar.getLinks();
+        System.out.println(links);
+		assert(this.findLinkInList(new Link(testPar, new Span(0, 0), "GP16",  Link.type.INTERNAL, new ArrayList<String>()), links));
+        assert(this.findLinkInList(new Link(testPar, new Span(45, 62), "Dillwyn,_Virginia",  Link.type.INTERNAL, new ArrayList<String>()), links));
+        assert(this.findLinkInList(new Link(testPar, new Span(312, 338), "Shenandoah_Valley_Railroad_(short-line)",  Link.type.INTERNAL, new ArrayList<String>()), links));
+        assert(this.findLinkInList(new Link(testPar, new Span(428, 437), "Spiderman",  Link.type.INTERNAL, new ArrayList<String>()), links));
 
         for (Link l: testPar.getLinks()){
             int start = l.getPos().getStart();
@@ -161,7 +163,7 @@ public class ParserTest {
         // Making sure Links with ":" are considered Internals
         Link h2OAnnotation = getLink(pp, "H2O:_Footprints_in_the_Sand");
         assertEquals(h2OAnnotation.getType(), Link.type.INTERNAL);
-        assertEquals(getLink(pp, "Cite:AAA").getType(), Link.type.UNKNOWN);
+        assertEquals(getLink(pp, "Cite:AAA").getType(), Link.type.INTERNAL);
 
         testAnchorsInText(pp);
     }
