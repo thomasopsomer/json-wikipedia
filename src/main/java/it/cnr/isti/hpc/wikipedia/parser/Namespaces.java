@@ -69,6 +69,6 @@ public class Namespaces {
         if (ne==null)
             return false;
         String neLowerCase = ne.toLowerCase();
-        return allNamespaces.contains(neLowerCase) || otherNE.contains(neLowerCase) ;
+        return allNamespaces.contains(neLowerCase) | otherNE.contains(neLowerCase) ;
     }
 }

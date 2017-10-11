@@ -30,8 +30,7 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-
+import java.util.stream.Collectors;
 /**
  * Generates a Mediawiki parser given a language, (it will expect to find a
  * locale file in <tt>src/main/resources/</tt>).
@@ -57,21 +56,21 @@ public class ArticleParser {
 
 	private final MediaWikiParser parser;
 	private final Locale locale;
-	private Set<String> namespaces = new HashSet<String>();
+	private HashSet<String> namespaces;
 
 	public ArticleParser(String lang) {
 		this.lang = lang;
 		parser = parserFactory.getParser(lang);
 		locale = new Locale(lang);
 		redirects = locale.getRedirectIdentifiers();
-
+		namespaces = new HashSet(locale.getNE().stream().map(n -> n.toLowerCase()).collect(Collectors.toList()));
 	}
 
 	public ArticleParser() {
 		parser = parserFactory.getParser(lang);
 		locale = new Locale(lang);
 		redirects = locale.getRedirectIdentifiers();
-
+		namespaces = new HashSet(locale.getNE().stream().map(n -> n.toLowerCase()).collect(Collectors.toList()));
 	}
 
 	public void parse(Article article, String mediawiki) {
@@ -314,11 +313,11 @@ public class ArticleParser {
 			de.tudarmstadt.ukp.wikipedia.parser.Link.type linkType = t.getType();
 			String anchor = t.getText();
 			String linkTarget = t.getTarget();
-			Boolean validLink = validateLink(linkType, linkTarget);
-			Link newLink = handleUnknonwnLink(t);
-			if (validLink && !newLink.getId().equals("")) {
+//			Boolean validLink = validateLink(linkType, linkTarget);
+			if (!t.getTarget().equals("")) {
 				if (linkType == de.tudarmstadt.ukp.wikipedia.parser.Link.type.UNKNOWN) {
-					internalLinks.add(newLink);
+					Link newLink = handleUnknonwnLink(t);
+					if (!newLink.getId().equals("")) internalLinks.add(newLink);
 				} else if (linkType == de.tudarmstadt.ukp.wikipedia.parser.Link.type.INTERNAL) {
 					internalLinks.add(new Link(linkTarget, anchor, t.getPos().getStart(), t.getPos().getEnd()));
 				} else if (linkType == de.tudarmstadt.ukp.wikipedia.parser.Link.type.EXTERNAL) {
@@ -437,7 +436,11 @@ public class ArticleParser {
 		}
 
 
-		for (NestedListContainer dl : page.getNestedLists()) {
+		for (NestedListContainer dl : page.
+
+
+
+				getNestedLists()) {
 			List<String> l = new ArrayList<String>();
 			for (NestedList nl : dl.getNestedLists()){
 				Paragraph p = new Paragraph(Paragraph.type.NORMAL);
@@ -629,9 +632,9 @@ public class ArticleParser {
 			newTarget = encodeWikistyle(newTarget);
 			String newText = StringUtils.stripStart(link.getText(), ":");
 			int offset = link.getText().length() - newText.length();
-			return new Link(newTarget, newText, link.getPos().getStart() + offset, link.getPos().getEnd());
+			return new Link(newTarget, newText, link.getPos().getStart() + offset, link.getPos().getEnd(), Link.type.INTERNAL);
 		} else {
-			return new Link("", "", link.getPos().getStart(), link.getPos().getEnd());
+			return new Link("", "", link.getPos().getStart(), link.getPos().getEnd(), Link.type.INTERNAL);
 		}
 	}
 
