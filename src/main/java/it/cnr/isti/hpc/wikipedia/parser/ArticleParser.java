@@ -53,7 +53,7 @@ import java.util.stream.Collectors;
  */
 public class ArticleParser {
 
-	static MediaWikiParserFactory parserFactory = new MediaWikiParserFactory();
+	private static MediaWikiParserFactory parserFactory = new MediaWikiParserFactory();
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(ArticleParser.class);
@@ -63,6 +63,9 @@ public class ArticleParser {
 
 	static int shortDescriptionLength = 500;
 	private final List<String> redirects;
+
+	private Pattern patternNE = Pattern.compile(":*([^:]+):(.+)");
+	private Pattern patternNoNameSpace = Pattern.compile(":*([^:]+.*)");
 
 	private final MediaWikiParser parser;
 	private final Locale locale;
@@ -523,7 +526,7 @@ public class ArticleParser {
 	 * @return Pair of strings - Namespace (ie Category) and topic separated
 	 */
 
-	public static Pair<String, String> extractNETopic(String target)
+	public Pair<String, String> extractNETopic(String target)
 	{
 		int pos = target.indexOf(':');
 		if (pos == -1)
@@ -538,7 +541,6 @@ public class ArticleParser {
 			//  cite:Michael Jackson -> ne: cite, topic: Michael Jacson
 			// ::cite:Michael Jackson -> ne: cite, topic: Michael Jacson
 			// :en:h20:A -> ne: en, Topic: h20:A
-			Pattern patternNE = Pattern.compile(":*([^:]+):(.+)");
 			Matcher m = patternNE.matcher(target);
 			if(m.find()){
 				String ne = m.group(1);
@@ -549,7 +551,6 @@ public class ArticleParser {
 				// With a colon but without NE
 				// i.e: :Michael Jackson
 				// i.e: ::::Michael Jackson
-				Pattern patternNoNameSpace = Pattern.compile(":*([^:]+.*)");
 				Matcher withoutNEMatches = patternNoNameSpace.matcher(target);
 				if(withoutNEMatches.find()){
 					String topic = withoutNEMatches.group(1);
@@ -565,12 +566,8 @@ public class ArticleParser {
 		return str.replace(' ', '_');
 	}
 
-	public static Pair<String, String> getLinkNameSpace(String target)
-	{
-		return getLinkNameSpace(target, new HashSet<String>());
-	}
 
-	public static Pair<String, String> getLinkNameSpace(String target, Set<String> otherNe)
+	public Pair<String, String> getLinkNameSpace(String target, Set<String> otherNe)
 	{
 		Pair<String, String> NeTopic = extractNETopic(target);
 

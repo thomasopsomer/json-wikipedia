@@ -1,8 +1,5 @@
 package it.cnr.isti.hpc.wikipedia.article;
 
-import de.tudarmstadt.ukp.wikipedia.parser.Paragraph;
-import de.tudarmstadt.ukp.wikipedia.parser.ParsedPage;
-import de.tudarmstadt.ukp.wikipedia.parser.Section;
 import it.cnr.isti.hpc.wikipedia.parser.ArticleParser;
 import org.apache.commons.math3.util.Pair;
 import org.junit.Test;
@@ -15,7 +12,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
-import static org.junit.matchers.JUnitMatchers.hasItems;
+import static org.hamcrest.CoreMatchers.hasItems;
 
 /**
  * Created by dav009 on 05/01/2016.

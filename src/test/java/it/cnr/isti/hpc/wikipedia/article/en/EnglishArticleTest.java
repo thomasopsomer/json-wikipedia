@@ -91,8 +91,6 @@ public class EnglishArticleTest extends ArticleTest {
 		parser.parse(a, mediawiki);
 		System.out.println(a.getRedirect());
 		assertTrue(! a.isRedirect());
-
-
 	}
 
     @Test
