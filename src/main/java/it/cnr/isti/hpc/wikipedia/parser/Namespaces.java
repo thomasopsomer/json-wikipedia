@@ -5,10 +5,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.commons.lang3.ArrayUtils;
-
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Arrays;
 
 /**
  * Created by David Przybilla on 04/09/2015.
@@ -51,12 +48,12 @@ public class Namespaces {
             "za","zh","zu"
     };
 
-    static Set<String> allNamespaces = new HashSet<String>(java.util.Arrays.asList(namespaces));
-    static Set<String> allLanguages = new HashSet<String>(java.util.Arrays.asList(languages));
+    static Set<String> allNamespaces = new HashSet(Arrays.asList(namespaces));
+    static Set<String> allLanguages = new HashSet(Arrays.asList(languages));
 
 
     public static boolean isLanguage(String ne){
-        if (ne==null)
+        if (ne == null)
             return false;
         return allLanguages.contains(ne.toLowerCase());
     }

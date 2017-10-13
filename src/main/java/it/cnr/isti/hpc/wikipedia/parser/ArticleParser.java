@@ -15,13 +15,23 @@
  */
 package it.cnr.isti.hpc.wikipedia.parser;
 
-import de.tudarmstadt.ukp.wikipedia.parser.*;
-import de.tudarmstadt.ukp.wikipedia.parser.mediawiki.MediaWikiParser;
 import it.cnr.isti.hpc.wikipedia.article.*;
 import it.cnr.isti.hpc.wikipedia.article.Article.Type;
 import it.cnr.isti.hpc.wikipedia.article.Link;
 import it.cnr.isti.hpc.wikipedia.article.Table;
 import it.cnr.isti.hpc.wikipedia.article.Template;
+
+import de.tudarmstadt.ukp.wikipedia.parser.mediawiki.MediaWikiParser;
+import de.tudarmstadt.ukp.wikipedia.parser.ParsedPage;
+import de.tudarmstadt.ukp.wikipedia.parser.Section;
+import de.tudarmstadt.ukp.wikipedia.parser.Content;
+import de.tudarmstadt.ukp.wikipedia.parser.Paragraph;
+import de.tudarmstadt.ukp.wikipedia.parser.DefinitionList;
+import de.tudarmstadt.ukp.wikipedia.parser.ContentElement;
+import de.tudarmstadt.ukp.wikipedia.parser.NestedList;
+import de.tudarmstadt.ukp.wikipedia.parser.NestedListContainer;
+import de.tudarmstadt.ukp.wikipedia.parser.Span;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
@@ -63,14 +73,14 @@ public class ArticleParser {
 		parser = parserFactory.getParser(lang);
 		locale = new Locale(lang);
 		redirects = locale.getRedirectIdentifiers();
-		namespaces = new HashSet(locale.getNE().stream().map(n -> n.toLowerCase()).collect(Collectors.toList()));
+		namespaces = new HashSet<String>(locale.getNE().stream().map(n -> n.toLowerCase()).collect(Collectors.toList()));
 	}
 
 	public ArticleParser() {
 		parser = parserFactory.getParser(lang);
 		locale = new Locale(lang);
 		redirects = locale.getRedirectIdentifiers();
-		namespaces = new HashSet(locale.getNE().stream().map(n -> n.toLowerCase()).collect(Collectors.toList()));
+		namespaces = new HashSet<String>(locale.getNE().stream().map(n -> n.toLowerCase()).collect(Collectors.toList()));
 	}
 
 	public void parse(Article article, String mediawiki) {
@@ -166,27 +176,9 @@ public class ArticleParser {
 		}
 	}
 
-	// for (List<String> lists : article.getLists()) {
-	// for (String line : lists) {
-	// for (String redirect : redirects) {
-	// if (StringUtils.startsWithIgnoreCase(line, redirect)) {
-	// int pos = line.indexOf(' ');
-	// if (pos < 0)
-	// return;
-	// String red = line.substring(pos).trim();
-	// red = Article.getTitleInWikistyle(red);
-	// article.setRedirect(red);
-	// article.setType(Type.REDIRECT);
-	// return;
-	//
-	// }
-	// }
-	// }
-	// }
-
 	/**
 	 * @param article
-	 * @param page
+	 * @param mediawiki
 	 */
 	private void setRedirect(Article article, String mediawiki) {
 		for (String redirect : redirects)
@@ -313,15 +305,19 @@ public class ArticleParser {
 			de.tudarmstadt.ukp.wikipedia.parser.Link.type linkType = t.getType();
 			String anchor = t.getText();
 			String linkTarget = t.getTarget();
-//			Boolean validLink = validateLink(linkType, linkTarget);
-			if (!t.getTarget().equals("")) {
-				if (linkType == de.tudarmstadt.ukp.wikipedia.parser.Link.type.UNKNOWN) {
-					Link newLink = handleUnknonwnLink(t);
-					if (!newLink.getId().equals("")) internalLinks.add(newLink);
-				} else if (linkType == de.tudarmstadt.ukp.wikipedia.parser.Link.type.INTERNAL) {
-					internalLinks.add(new Link(linkTarget, anchor, t.getPos().getStart(), t.getPos().getEnd()));
-				} else if (linkType == de.tudarmstadt.ukp.wikipedia.parser.Link.type.EXTERNAL) {
-					externalLinks.add(new Link(t.getTarget(), t.getText(), t.getPos().getStart(), t.getPos().getEnd()));
+			if (!StringUtils.isEmpty(t.getTarget())) {
+				switch (linkType) {
+					case UNKNOWN:
+						Link newLink = handleUnknownLink(t);
+						if (!StringUtils.isEmpty(newLink.getId())) internalLinks.add(newLink);
+						break;
+					case INTERNAL:
+						internalLinks.add(new Link(linkTarget, anchor, t.getPos().getStart(), t.getPos().getEnd()));
+						break;
+					case EXTERNAL:
+						externalLinks.add(new Link(t.getTarget(), t.getText(), t.getPos().getStart(), t.getPos().getEnd()));
+					default:
+						break;
 				}
 			}
 		}
@@ -436,11 +432,7 @@ public class ArticleParser {
 		}
 
 
-		for (NestedListContainer dl : page.
-
-
-
-				getNestedLists()) {
+		for (NestedListContainer dl : page.getNestedLists()) {
 			List<String> l = new ArrayList<String>();
 			for (NestedList nl : dl.getNestedLists()){
 				Paragraph p = new Paragraph(Paragraph.type.NORMAL);
@@ -525,18 +517,20 @@ public class ArticleParser {
 
 		}
 	}
-
-	/*
-	 * returns a pair <Namespace, TopicId>
+	/**
+	 * <explain what the method does>
+	 * @param target - Internal wikipedia link target string
+	 * @return Pair of strings - Namespace (ie Category) and topic separated
 	 */
-	public static org.apache.commons.math3.util.Pair<String, String> extractNETopic(String target)
+
+	public static Pair<String, String> extractNETopic(String target)
 	{
 		int pos = target.indexOf(':');
 		if (pos == -1)
 		{
 			// Doesnt have any NE
 			// i.e: Michael Jackson
-			return new org.apache.commons.math3.util.Pair<String,String>(null, target);
+			return Pair.of(null, target);
 		}
 		else
 		{
@@ -549,7 +543,7 @@ public class ArticleParser {
 			if(m.find()){
 				String ne = m.group(1);
 				String topic = m.group(2);
-				return new org.apache.commons.math3.util.Pair<String,String>(ne, topic);
+				return Pair.of(ne, topic);
 
 			}else{
 				// With a colon but without NE
@@ -559,9 +553,9 @@ public class ArticleParser {
 				Matcher withoutNEMatches = patternNoNameSpace.matcher(target);
 				if(withoutNEMatches.find()){
 					String topic = withoutNEMatches.group(1);
-					return new org.apache.commons.math3.util.Pair<String, String>(null, topic);
+					return Pair.of(null, topic);
 				}
-				return new org.apache.commons.math3.util.Pair<String,String>(null, target);
+				return Pair.of(null, target);
 			}
 		}
 	}
@@ -571,22 +565,22 @@ public class ArticleParser {
 		return str.replace(' ', '_');
 	}
 
-	public static org.apache.commons.math3.util.Pair<String, String> getLinkNameSpace(String target)
+	public static Pair<String, String> getLinkNameSpace(String target)
 	{
 		return getLinkNameSpace(target, new HashSet<String>());
 	}
 
-	public static org.apache.commons.math3.util.Pair<String, String> getLinkNameSpace(String target, Set<String> otherNe)
+	public static Pair<String, String> getLinkNameSpace(String target, Set<String> otherNe)
 	{
-		org.apache.commons.math3.util.Pair<String, String> NeTopic = extractNETopic(target);
+		Pair<String, String> NeTopic = extractNETopic(target);
 
-		String extractedNe = NeTopic.getFirst();
-		String extractedTopicId = NeTopic.getSecond();
+		String extractedNe = NeTopic.getLeft();
+		String extractedTopicId = NeTopic.getRight();
 
 		// No name space
 		// i.e: Michael Jackson -> ne: null, Topic:Michael Jackson
 		if(extractedNe==null){
-			return new org.apache.commons.math3.util.Pair<String,String>(null, extractedTopicId);
+			return Pair.of(null, extractedTopicId);
 		}
 
 		// If it has a namespace that matches our list then don't change the Topic Id
@@ -596,37 +590,21 @@ public class ArticleParser {
 		if (Namespaces.isNamespace(extractedNe, otherNe) | Namespaces.isLanguage(extractedNe))
 		{
 			String topic = extractedNe + ":" + extractedTopicId;
-			return new org.apache.commons.math3.util.Pair<String, String>(extractedNe.toLowerCase(), topic);
+			return Pair.of(extractedNe.toLowerCase(), topic);
 		}
 
 		// If the namespace does not match any in our list
 		// it means the ne is part of the Topic ID.
 		// i.e: h20:Japanese Band -> ne: null, topic: h20:Japanese Band
 		String topic = extractedNe + ":" + extractedTopicId;
-		return new org.apache.commons.math3.util.Pair<String, String>(null, topic);
+		return Pair.of(null, topic);
 	}
 
-	/**
-	 *
-	 */
-
-	private Boolean validateLink(de.tudarmstadt.ukp.wikipedia.parser.Link.type linkType, String linkTarget)
+	private Link handleUnknownLink(de.tudarmstadt.ukp.wikipedia.parser.Link link)
 	{
-		if (linkTarget.isEmpty()) {
-			return false;
-		} else if (linkTarget.contains(":") && linkType == de.tudarmstadt.ukp.wikipedia.parser.Link.type.UNKNOWN) {
-			return false;
-		} else {
-			return true;
-		}
-
-	}
-
-	private Link handleUnknonwnLink(de.tudarmstadt.ukp.wikipedia.parser.Link link)
-	{
-		org.apache.commons.math3.util.Pair<String, String> pairNETopic = getLinkNameSpace(link.getTarget(), this.namespaces);
-		String namespace = pairNETopic.getFirst();
-		String newTarget =  pairNETopic.getSecond();
+		Pair<String, String> pairNETopic = getLinkNameSpace(link.getTarget(), this.namespaces);
+		String namespace = pairNETopic.getLeft();
+		String newTarget =  pairNETopic.getRight();
 		if(namespace == null) {
 			newTarget = StringUtils.stripStart(newTarget, ":");
 			newTarget = encodeWikistyle(newTarget);

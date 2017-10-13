@@ -43,6 +43,9 @@ public class LocalizedMediaWikiParserFactory extends MediaWikiParserFactory {
 		for (String name : locale.getCategoryIdentifiers())
 			getCategoryIdentifers().add(name);
 
+		for (String name: locale.getNE())
+			getCategoryIdentifers().add(name);
+
 	}
 
 }
