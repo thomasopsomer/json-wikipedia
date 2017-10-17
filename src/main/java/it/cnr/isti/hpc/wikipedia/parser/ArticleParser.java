@@ -64,6 +64,8 @@ public class ArticleParser {
 	static int shortDescriptionLength = 500;
 	private final List<String> redirects;
 
+	private static final Pattern patternNE = Pattern.compile(":*([^:]+):(.+)");
+	private static final Pattern patternNoNameSpace = Pattern.compile(":*([^:]+.*)");
 
 	private final MediaWikiParser parser;
 	private final Locale locale;
