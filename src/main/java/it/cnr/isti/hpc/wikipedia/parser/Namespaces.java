@@ -11,7 +11,7 @@ import java.util.Arrays;
  * Created by David Przybilla on 04/09/2015.
  */
 public class Namespaces {
-    static String[] namespacesEnglish = {"image", "talk", "user", "project", "file", "project_talk", "mediaWiki",
+    private static String[] namespacesEnglish = {"image", "talk", "user", "project", "file", "project_talk", "mediaWiki",
             "mediawiki_talk", "template", "template_talk", "help", "help_talk",
             "category", "category_talk", "thread", "thread_talk", "summary",
             "summary_talk", "relation", "relation_talk", "property",
@@ -29,11 +29,11 @@ public class Namespaces {
             "wikiquote", "book_talk", "wikispecies", "portal_talk", "q", "c", "commons"};
 
 
-    static String[] namespaces = ArrayUtils.addAll(namespacesEnglish);
+    private static String[] namespaces = ArrayUtils.addAll(namespacesEnglish);
 
     // https://en.wikipedia.org/wiki/Help:Interlanguage_links
     // list of iso 639-1 langs
-    static String[] languages = {"aa","ab","af","ak","sq","am","ar","an","hy","as","av","ae","ay","az",
+    private static String[] languages = {"aa","ab","af","ak","sq","am","ar","an","hy","as","av","ae","ay","az",
             "ba","bm","eu","be","bn","bh","bi","bo","bs","br","bg","my","ca","cs","ch","ce","zh",
             "cu","cv","kw","co","cr","cy","cs","da","de","dv","nl","dz","el","en","eo","et","eu",
             "ee","fo","fa","fj","fi","fr","fr","fy","ff","ga","de","gd","ga","gl","gv","el","gn",
@@ -48,8 +48,8 @@ public class Namespaces {
             "za","zh","zu"
     };
 
-    static Set<String> allNamespaces = new HashSet(Arrays.asList(namespaces));
-    static Set<String> allLanguages = new HashSet(Arrays.asList(languages));
+    private static Set<String> allNamespaces = new HashSet<>(Arrays.asList(namespaces));
+    private static Set<String> allLanguages = new HashSet<>(Arrays.asList(languages));
 
 
     public static boolean isLanguage(String ne){
@@ -59,7 +59,7 @@ public class Namespaces {
     }
 
     public static boolean isNamespace(String ne){
-        return isNamespace(ne, new HashSet<String>());
+        return isNamespace(ne, new HashSet<>());
     }
 
     public static boolean isNamespace(String ne, Set<String> otherNE){

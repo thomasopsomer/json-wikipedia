@@ -83,7 +83,6 @@ public class ArticleTest {
 
 		assertFalse(uris.contains("André_Delavigne"));
 		assertFalse(uris.contains("Something"));
-//		assertThat(uris, hasItems("France", "Potato", "cite:Gundam"));
         assertThat(uris, hasItems("France", "Potato"));
         assert(uris.size()==2);
 

@@ -64,8 +64,8 @@ public class ArticleParser {
 	static int shortDescriptionLength = 500;
 	private final List<String> redirects;
 
-	private Pattern patternNE = Pattern.compile(":*([^:]+):(.+)");
-	private Pattern patternNoNameSpace = Pattern.compile(":*([^:]+.*)");
+	private static Pattern patternNE = Pattern.compile(":*([^:]+):(.+)");
+	private static Pattern patternNoNameSpace = Pattern.compile(":*([^:]+.*)");
 
 	private final MediaWikiParser parser;
 	private final Locale locale;
@@ -501,6 +501,10 @@ public class ArticleParser {
 
 	}
 
+	/**
+	 * Sets the article type to DISAMBIGUATION  if it detects the word "disambiguation" in the title.
+	 * @param a - Article
+	 */
 	private void setDisambiguation(Article a) {
 
 		for (String disambiguation : locale.getDisambigutionIdentifiers()) {
@@ -521,7 +525,8 @@ public class ArticleParser {
 		}
 	}
 	/**
-	 * <explain what the method does>
+	 * Extracts namespace from link target. If the part of the string before ':' is inside the known namespaces,
+	 * we separate it from the target.
 	 * @param target - Internal wikipedia link target string
 	 * @return Pair of strings - Namespace (ie Category) and topic separated
 	 */
