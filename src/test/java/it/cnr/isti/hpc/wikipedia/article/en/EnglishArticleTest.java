@@ -45,7 +45,6 @@ import org.junit.Test;
 public class EnglishArticleTest extends ArticleTest {
 
 	ArticleParser parser = new ArticleParser(Language.EN);
-	
 
 	@Test
 	public void testParsing() throws IOException {
