@@ -83,10 +83,10 @@ public class ArticleTest {
 
 		assertFalse(uris.contains("André_Delavigne"));
 		assertFalse(uris.contains("Something"));
-        assertThat(uris, hasItems("France", "Potato"));
-        assert(uris.size()==2);
+		assertThat(uris, hasItems("France", "Potato"));
+		assert(uris.size()==2);
 
-//		 Making sure Links with ":" are considered Internals
+		// Making sure Links with ":" are considered Internals
 		Link andreAnnotation = getLink(a, "France");
 		assertEquals(andreAnnotation.getType(), Link.type.INTERNAL);
 
