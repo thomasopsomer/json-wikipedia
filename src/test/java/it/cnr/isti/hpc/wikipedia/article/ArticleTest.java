@@ -19,7 +19,32 @@ import static org.hamcrest.CoreMatchers.hasItems;
  */
 public class ArticleTest {
 
-	protected Pair<List<String>, List<String>> getAnchorsAndUris(Article a){
+    @Test
+    public void testExtractingLinksFromGallery(){
+
+        String mediawiki =
+                "==Gallery==\n" +
+                        "<gallery heights=\"150\" widths=\"150\">\n" +
+                        "Jordantreppe Petersburg Eremitage 02.JPG\n" +
+                        "The State (Jordan, or Ambassadors') Staircase.jpg\n" +
+                        "The State (Jordan, or Ambassadors') Staircase 2.jpg\n" +
+                        "Hermitage St. Petersburg Interior 20021009.jpg\n" +
+                        "Hermitage staicase.jpg\n" +
+                        "Jordantreppe Decke Petersburg Eremitage.jpg\n" +
+                        "RIAN archive 139402 Main Staircase at the Hermitage.jpg\n" +
+                        "Jordan Staircase 9.JPG\n" +
+                        "</gallery>\n";
+
+        ArticleParser parser = new ArticleParser(Language.EN);
+        Article a = new Article();
+        parser.parse(a, mediawiki);
+
+
+        assert(a.getLinks().isEmpty());
+
+    }
+
+    protected Pair<List<String>, List<String>> getAnchorsAndUris(Article a){
 
 		List<String> uris = new ArrayList<String>();
 		List<String> anchors = new ArrayList<String>();

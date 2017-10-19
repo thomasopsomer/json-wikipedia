@@ -66,6 +66,7 @@ public class ArticleParser {
 
 	private static final Pattern patternNE = Pattern.compile(":*([^:]+):(.+)");
 	private static final Pattern patternNoNameSpace = Pattern.compile(":*([^:]+.*)");
+	private static final Pattern patternImage= Pattern.compile("([^\\s]+(\\.(?i)(jpg|png|gif|bmp))$)");
 
 	private final MediaWikiParser parser;
 	private final Locale locale;
@@ -315,7 +316,7 @@ public class ArticleParser {
 						if (!StringUtils.isEmpty(newLink.getId())) internalLinks.add(newLink);
 						break;
 					case INTERNAL:
-						internalLinks.add(new Link(linkTarget, anchor, t.getPos().getStart(), t.getPos().getEnd()));
+					    if (!isImage(t)) internalLinks.add(new Link(linkTarget, anchor, t.getPos().getStart(), t.getPos().getEnd()));
 						break;
 					case EXTERNAL:
 						externalLinks.add(new Link(t.getTarget(), t.getText(), t.getPos().getStart(), t.getPos().getEnd()));
@@ -616,6 +617,12 @@ public class ArticleParser {
 		} else {
 			return new Link("", "", link.getPos().getStart(), link.getPos().getEnd(), Link.type.INTERNAL);
 		}
+	}
+
+	private boolean isImage(de.tudarmstadt.ukp.wikipedia.parser.Link link)
+	{
+		Matcher m = patternImage.matcher(link.getTarget().toLowerCase());
+		return m.matches();
 	}
 
 }

@@ -26,7 +26,8 @@ public class Namespaces {
             "interpretation_talk", "wikt", "s", "wp", "user talk", "w", "wiktionary", "file talk",
             "nds", "file", "draft", "user_talk", "m", "wikipedia talk", "wikipedia_talk", "image talk",
             "wt", "portal talk", "wikisource", "wikinews", "imdbname", "mw", "wikibooks",
-            "wikiquote", "book_talk", "wikispecies", "portal_talk", "q", "c", "commons"};
+            "wikiquote", "book_talk", "wikispecies", "portal_talk", "q", "c", "commons", "Nu", "x", "bugzilla", "p", "wm"
+    };
 
 
     private static String[] namespaces = ArrayUtils.addAll(namespacesEnglish);
