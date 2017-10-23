@@ -66,7 +66,7 @@ public class ArticleParser {
 
 	private static final Pattern patternNE = Pattern.compile(":*([^:]+):(.+)");
 	private static final Pattern patternNoNameSpace = Pattern.compile(":*([^:]+.*)");
-	private static final Pattern patternImage= Pattern.compile("([^\\s]+(\\.(?i)(jpg|png|gif|bmp))$)");
+	private static final Pattern patternImage = Pattern.compile("([^\\s]+(\\.(?i)(jpg|png|gif|bmp))$)");
 
 	private final MediaWikiParser parser;
 	private final Locale locale;
