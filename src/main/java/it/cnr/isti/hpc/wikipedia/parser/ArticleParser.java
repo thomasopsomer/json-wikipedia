@@ -609,7 +609,7 @@ public class ArticleParser {
 		Pair<String, String> pairNETopic = getLinkNameSpace(link.getTarget(), this.namespaces);
 		String namespace = pairNETopic.getLeft();
 		String newTarget =  pairNETopic.getRight();
-		if(namespace == null) {
+		if(namespace == null & !isImage(link)) {
 			newTarget = StringUtils.stripStart(newTarget, ":");
 			newTarget = encodeWikistyle(newTarget);
 			String newText = StringUtils.stripStart(link.getText(), ":");
@@ -622,7 +622,7 @@ public class ArticleParser {
 
 
     /**
-	 * Checks if provided link has an image pattern as target. Some links that get extracted from the <gallery></gallery>
+	 * Checks if provided link has an image pattern as target. Some links that get extracted from the &lt;gallery&gt;&lt;/gallery&gt;
 	 * section do not have the normal link structure, but are still parsed as links, so this function detects those.
  	 * @param link - Link object
 	 * @return boolean - If its a link to an image.
