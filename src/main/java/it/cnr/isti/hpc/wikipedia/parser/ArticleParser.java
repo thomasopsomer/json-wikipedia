@@ -316,6 +316,7 @@ public class ArticleParser {
 						if (!StringUtils.isEmpty(newLink.getId())) internalLinks.add(newLink);
 						break;
 					case INTERNAL:
+					    // Check if is missed image link, otherwise add to internal links.
 					    if (!isImage(t)) internalLinks.add(new Link(linkTarget, anchor, t.getPos().getStart(), t.getPos().getEnd()));
 						break;
 					case EXTERNAL:
@@ -619,6 +620,13 @@ public class ArticleParser {
 		}
 	}
 
+
+    /**
+	 * Checks if provided link has an image pattern as target. Some links that get extracted from the <gallery></gallery>
+	 * section do not have the normal link structure, but are still parsed as links, so this function detects those.
+ 	 * @param link - Link object
+	 * @return boolean - If its a link to an image.
+	 */
 	private boolean isImage(de.tudarmstadt.ukp.wikipedia.parser.Link link)
 	{
 		Matcher m = patternImage.matcher(link.getTarget().toLowerCase());

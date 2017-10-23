@@ -73,9 +73,29 @@
             <version>3.1</version>
         </dependency>
         <dependency>
-            <groupId>com.github.dkpro</groupId>
-            <artifactId>dkpro-jwpl</artifactId>
-            <version>de.tudarmstadt.ukp.wikipedia-1.1.0</version>
+            <groupId>de.tudarmstadt.ukp.wikipedia</groupId>
+            <artifactId>de.tudarmstadt.ukp.wikipedia.api</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>de.tudarmstadt.ukp.wikipedia</groupId>
+            <artifactId>de.tudarmstadt.ukp.wikipedia.parser</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>de.tudarmstadt.ukp.wikipedia</groupId>
+            <artifactId>de.tudarmstadt.ukp.wikipedia.datamachine</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>de.tudarmstadt.ukp.wikipedia</groupId>
+            <artifactId>de.tudarmstadt.ukp.wikipedia.revisionmachine</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>de.tudarmstadt.ukp.wikipedia</groupId>
+            <artifactId>de.tudarmstadt.ukp.wikipedia.timemachine</artifactId>
+            <version>1.1.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>
@@ -177,6 +197,14 @@
         <repository>
             <id>sonatype-snapshots</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </repository>
+        <repository>
+            <id>de.tudarmstadt.ukp.wikipedia</id>
+            <url>http://zoidberg.ukp.informatik.tu-darmstadt.de/artifactory/public-snapshots/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
         </repository>
     </repositories>
     <build>
