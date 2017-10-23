@@ -409,6 +409,21 @@ public class ArticleParser {
 
 	}
 
+	private List<Highlight> getHighlightsFromParagraph(Paragraph p) {
+		List<Highlight> highlights = new ArrayList<Highlight>(20);
+		//bold
+		for (Span t : p.getFormatSpans(Content.FormatType.BOLD)) {
+			Highlight highlight = new Highlight(t.getText(p.getText()), "bold", t.getStart(), t.getEnd());
+			highlights.add(highlight);
+		}
+		// italic
+		for (Span t : p.getFormatSpans(Content.FormatType.ITALIC)) {
+			Highlight highlight = new Highlight(t.getText(p.getText()), "italic", t.getStart(), t.getEnd());
+			highlights.add(highlight);
+		}
+		return highlights;
+	}
+
 	/*
 	* Extracts text and links from tables and returns a list of paragraphs
 	* */
@@ -466,7 +481,7 @@ public class ArticleParser {
 
 		for (Paragraph p : AllParagraphs) {
 			String text = p.getText();
-			List<Link> links = new ArrayList<Link>();
+			List<Link> links;
 
 			text = text.replace("\n", " ");//.trim();
 			if (!text.isEmpty()){
@@ -475,8 +490,10 @@ public class ArticleParser {
 				Pair<List<Link>,List<Link>> extractedLinks = extractLinks(p.getLinks());
 				// internal links
 				links = extractedLinks.getLeft();
-
-				ParagraphWithLinks paragraphWithLinks = new ParagraphWithLinks(text, links);
+				// highlights
+				List<Highlight> highlights = getHighlightsFromParagraph(p);
+				//
+				ParagraphWithLinks paragraphWithLinks = new ParagraphWithLinks(text, links, highlights);
 				paraLinks.add(paragraphWithLinks);
 			}
 		}
