@@ -1,10 +1,9 @@
 package it.cnr.isti.hpc.wikipedia.article;
 
 /**
- * Created by thomasopsomer on 23/10/2017.
+ * Created by thomasopsomer
  */
 public class Highlight {
-
 
     private String text;
     private String type;
@@ -18,13 +17,18 @@ public class Highlight {
         this.end = end;
     }
 
-    public String getAnchor() {return text;}
+    public String getText() {return text;}
 
     public String getType() {return type;}
 
     public int getStart() {return start;}
 
     public int getEnd() {return end;}
+
+    @Override
+    public String toString() {
+        return "Highligh [text=" + getText() + ", type=" + getType() + ", start=" + getStart() + ", end=" + getEnd() + "]";
+    }
 
 
 }

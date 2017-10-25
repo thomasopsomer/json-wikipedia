@@ -484,7 +484,8 @@ public class ArticleParser {
 			List<Link> links;
 
 			text = text.replace("\n", " ");//.trim();
-			if (!text.isEmpty()){
+			// if (!text.isEmpty()){
+			if (!text.trim().isEmpty()){
 				paragraphs.add(text);
 
 				Pair<List<Link>,List<Link>> extractedLinks = extractLinks(p.getLinks());

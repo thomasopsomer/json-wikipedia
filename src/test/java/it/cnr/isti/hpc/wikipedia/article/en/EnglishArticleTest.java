@@ -16,16 +16,13 @@
 package it.cnr.isti.hpc.wikipedia.article.en;
 
 import it.cnr.isti.hpc.io.IOUtils;
-import it.cnr.isti.hpc.wikipedia.article.Article;
-import it.cnr.isti.hpc.wikipedia.article.ArticleTest;
-import it.cnr.isti.hpc.wikipedia.article.Language;
+import it.cnr.isti.hpc.wikipedia.article.*;
 import it.cnr.isti.hpc.wikipedia.parser.ArticleParser;
-import it.cnr.isti.hpc.wikipedia.article.ParagraphWithLinks;
-import it.cnr.isti.hpc.wikipedia.article.Link;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collector;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
@@ -61,10 +58,7 @@ public class EnglishArticleTest extends ArticleTest {
             }
         }
 
-
-
 	}
-
 
 
 	@Test
@@ -229,5 +223,25 @@ public class EnglishArticleTest extends ArticleTest {
 
 	}
 
+
+	@Test
+	public void testHighlights() throws IOException {
+		Article a = new Article();
+		String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/article.txt");
+		parser.parse(a, mediawiki);
+		ParagraphWithLinks p = a.getParagraphsWithLinks().get(0);
+		List<Highlight> highlights = p.getHighlights();
+
+		//
+		assertEquals("Albedo", highlights.get(0).getText());
+		assertEquals("bold", highlights.get(0).getType());
+		assertEquals("reflection coefficient", highlights.get(1).getText());
+		assertEquals("italic", highlights.get(1).getType());
+
+		// check same number of highlights as the global fields
+		int c1 = (int) a.getParagraphsWithLinks().stream().flatMap(x -> x.getHighlights().stream()).count();
+		int c2 = a.getHighlights().size();
+		assertEquals(c1, c2);
+	}
 
 }
